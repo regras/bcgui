@@ -1,2 +1,0 @@
-# bcgi
-Blockchain Graphic Interface
