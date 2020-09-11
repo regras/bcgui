@@ -84,7 +84,7 @@ It is important to emphasize that the tool is still under development and will s
 * [**Diego Martins**](https://github.com/diegomat)
 * [**ReGrAS**](https://github.com/regras) - Research Group on Applied Security
 
-See also the list of [contributors](https://github.com/regras/bcgui/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/regras/bcgui/graphs/contributors)
 
 ---
 ## More information:
