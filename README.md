@@ -42,7 +42,7 @@ apt-get install sqlite3
 
 Before running the application, you need the consensus mechanism [PPoS](https://github.com/regras/bc_pos/tree/pos_graphic_interface), into which the application has been integrated. This link represents the testbed to evaluate PPoS consensus blockchain.
 
-After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" on line 18 of the "interface.py" file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/bc_pos/tree/pos_graphic_interface).
+After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/bc_pos/tree/pos_graphic_interface).
 
 After defining the variable "databaseLocation", the application can be started and executed together with the consensus protocol.
 
@@ -57,7 +57,7 @@ The dash server will be running and to access the application just access:
 ```
 http://127.0.0.1:8050/
 ```
-Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" on line 52 of the "interface.py" file. 
+Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. 
 ```
 intervalfreq = 1000
 ```
@@ -68,9 +68,27 @@ intervalfreq = 1000
 
 This section presents some additional notes on how to deploy this to another active system. 
 
-To implement the application in the consensus engine, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the blockchain_list() function of the "interface.py" file. This function is responsible for reading the information from the database returning a list where each element is a block of the blockchain. To reuse this application in another consensus mechanism, some modifications are needed in the way data is collected in each protocol by the blockchain_list() function. Extracting the relevant information from the cited function of the protocol, it may be necessary to adjust how the Blockchain_Graph() function of the "interface.py" file will work with this data. 
-
 It is important to emphasize that the tool is still under development and will still undergo several improvements.
+
+To implement the application in a consensus mechanism, it is necessary to understand the structure of the code. The entire code of the "interface.py" file is divided into four sections, which are: "GLOBAL PARAMETERS", "DATABASE", "NETWORKX AND PLOTLY" and "DASH".
+
+#### "GLOBAL PARAMETERS" section 
+
+This section has parameters corresponding to the colors of each page element, the application update time interval and the location of the blockchain database. It is important to define the location of the blockchain database in the variable "databaseLocation" in this section so that the application can extract the necessary data.
+
+#### "DATABASE" section
+
+This section is responsible for reading the database, and it extracts all relevant information from the blockchain from the database. This reading is done through the function "blockchain_list ()" which returns a list where each term is a block of the blockchain with its respective information. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data is collected in each protocol by the function "blockchain_list ()".
+
+
+#### "NETWORKX AND PLOTLY" section 
+
+This section is responsible for processing the data acquired from the database. This data is handled by the "Blockchain_Graph ()" function, using the "Networkx" and "Plotly" libraries to return an interactive blockchain graph. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data will be handled by the "Blockchain_Graph ()" function.
+
+
+#### "DASH" section
+
+This section is responsible for all information that will be presented on the web interface. This is where the page layout and the elements that the user can interact with are configured.
 
 ---
 ## Built With
