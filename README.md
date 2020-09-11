@@ -80,8 +80,12 @@ It is important to emphasize that the tool is still under development and will s
 ---
 ## Authors
 
-* **Bryan Wolff** - bryan.wolff@hotmail.com
-* **Diego Fernandes Gonçalves Martins**
-* **Marco Aurelio Amaral Henriques**
+* [**Bryan Wolff**](https://github.com/bryan-wolff)
+* [**Diego Martins**](https://github.com/diegomat)
+* [**ReGrAS**](https://github.com/regras) - Research Group on Applied Security
 
 See also the list of [contributors](https://github.com/regras/bcgui/graphs/contributors) who participated in this project.
+
+---
+## More information:
+* Wolff B.; Martins D. F. G.; Henriques M. A. A., "Ferramenta de monitoramento gráfico para suporte à criação e testes de novos mecanismos de consenso em blockchains", WTICG- SBSeg 2020, Brazilian Computer Society, Brazil, Oct. 2020.
