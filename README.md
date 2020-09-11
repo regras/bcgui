@@ -78,12 +78,12 @@ This section has parameters corresponding to the colors of each page element, th
 
 #### "DATABASE" section
 
-This section is responsible for reading the database, and it extracts all relevant information from the blockchain from the database. This reading is done through the function "blockchain_list ()" which returns a list where each term is a block of the blockchain with its respective information. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data is collected in each protocol by the function "blockchain_list ()".
+This section is responsible for reading the database, and it extracts all relevant information from the blockchain from the database. This reading is done through the function "blockchain_list()" which returns a list where each term is a block of the blockchain with its respective information. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data is collected in each protocol by the function "blockchain_list()".
 
 
 #### "NETWORKX AND PLOTLY" section 
 
-This section is responsible for processing the data acquired from the database. This data is handled by the "Blockchain_Graph ()" function, using the "Networkx" and "Plotly" libraries to return an interactive blockchain graph. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data will be handled by the "Blockchain_Graph ()" function.
+This section is responsible for processing the data acquired from the database. This data is handled by the "Blockchain_Graph()" function, using the "Networkx" and "Plotly" libraries to return an interactive blockchain graph. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data will be handled by the "Blockchain_Graph()" function.
 
 
 #### "DASH" section
