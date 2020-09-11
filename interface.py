@@ -11,7 +11,7 @@ import threading
 #OBS:
 #para evitar o erro 'lazy loading' execute esse arquivo com o seguinte código no terminal: waitress-serve interface:app.server
 
-# Parametros Globais ###########################################################################################################
+# GLOBAL PARAMETERS ###########################################################################################################
 
 #intervalo de atualização da ferramenta em milissegundos (ms)
 intervalfreq = 10000
@@ -29,7 +29,7 @@ colors = {'background_graph':'#f8f8f8',
 	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
 }
 
-# BANCO DE DADOS ##############################################################################################################
+# DATABASE ###################################################################################################################
 
 #Acessa o banco de dados - Retorna uma lista - cada termo é um bloco - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round
 def blockchain_list():
@@ -51,7 +51,7 @@ def blockchain_list():
 	db.close()
 	return blocks
 
-# NETWORKX E PLOTLY ##############################################################################################################
+# NETWORKX AND PLOTLY ########################################################################################################
 
 def Blockchain_Graph():
 
@@ -206,7 +206,7 @@ EXEMPLO P/ REMOVER OU ADD FERRAMENTAS DE ANALISE DO GRÁFICOS (BOTOES)
 """
 
 
-# DASH ##############################################################################################################
+# DASH #######################################################################################################################
 
 
 
