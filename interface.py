@@ -240,7 +240,7 @@ def serve_layout():
 
 							dcc.Interval( #atualizar o gráfico a cada 10 segundos
             							id='interval_component',
-            							interval=20000, #em ms
+            							interval=10000, #em ms
             							n_intervals=0
         						),
 							html.H6('ID range:'),
@@ -276,6 +276,6 @@ def update_my_graph(interval_component):
 
 
 if __name__ == '__main__':
-	app.run_server(debug=True, use_reloader=True, host='127.0.0.2',port=8050)
+	app.run_server(debug=True, use_reloader=True, host='127.0.0.1',port=8050)
 	#debug=True significa que o Dash atualizará automaticamente o navegador quando você fizer uma alteração no código.
 		
