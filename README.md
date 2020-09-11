@@ -72,21 +72,21 @@ It is important to emphasize that the tool is still under development and will s
 
 To implement the application in a consensus mechanism, it is necessary to understand the structure of the code. The entire code of the "interface.py" file is divided into four sections, which are: "GLOBAL PARAMETERS", "DATABASE", "NETWORKX AND PLOTLY" and "DASH".
 
-#### "GLOBAL PARAMETERS" section 
+* **"GLOBAL PARAMETERS" section**
 
 This section has parameters corresponding to the colors of each page element, the application update time interval and the location of the blockchain database. It is important to define the location of the blockchain database in the variable "databaseLocation" in this section so that the application can extract the necessary data.
 
-#### "DATABASE" section
+* **"DATABASE" section**
 
 This section is responsible for reading the database, and it extracts all relevant information from the blockchain from the database. This reading is done through the function "blockchain_list()" which returns a list where each term is a block of the blockchain with its respective information. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data is collected in each protocol by the function "blockchain_list()".
 
 
-#### "NETWORKX AND PLOTLY" section 
+* **"NETWORKX AND PLOTLY" section**
 
 This section is responsible for processing the data acquired from the database. This data is handled by the "Blockchain_Graph()" function, using the "Networkx" and "Plotly" libraries to return an interactive blockchain graph. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data will be handled by the "Blockchain_Graph()" function.
 
 
-#### "DASH" section
+* **"DASH" section**
 
 This section is responsible for all information that will be presented on the web interface. This is where the page layout and the elements that the user can interact with are configured.
 
