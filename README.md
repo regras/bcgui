@@ -32,7 +32,7 @@ sudo pip install plotly
 ```
 sudo pip install dash==1.16.0
 ```
-- **SQLite3 **
+- **SQLite3**
 ```
 sudo apt-get install sqlite3
 ```
