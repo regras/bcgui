@@ -1,4 +1,4 @@
-# bcgui
+# About The Project
 
 Blockchain Graphical User Interface is a Python tool for monitoring the dynamic evolution of a single node blockchain on the network under the control of a consensus mechanism. For practical development, the application has been integrated with the [PPoS](https://github.com/regras/bc_pos) protocol.
 
@@ -60,7 +60,7 @@ Upon opening the url, a preview of the blockchain will be shown allowing interac
 ---
 ## Deployment
 
-This section presents some additional notes on how to deploy this to another active system. To implement the application in the consensus engine, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the blockchain_list() function. This function is responsible for reading the information from the database returning a list where each element is a block of the blockchain. To reuse this application in another consensus mechanism, some modifications are needed in the way data is collected in each protocol by the blockchain_list() function. Extracting the relevant information from the cited function of the protocol, it may be necessary to adjust how the Blockchain_Graph() function will work with this data. It is important to emphasize that the tool is still under development and will still undergo several improvements.
+This section presents some additional notes on how to deploy this to another active system. To implement the application in the consensus engine, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the blockchain_list() function of the "interface.py" file. This function is responsible for reading the information from the database returning a list where each element is a block of the blockchain. To reuse this application in another consensus mechanism, some modifications are needed in the way data is collected in each protocol by the blockchain_list() function. Extracting the relevant information from the cited function of the protocol, it may be necessary to adjust how the Blockchain_Graph() function of the "interface.py" file will work with this data. It is important to emphasize that the tool is still under development and will still undergo several improvements.
 
 ---
 ## Built With
@@ -74,7 +74,7 @@ This section presents some additional notes on how to deploy this to another act
 ---
 ## Authors
 
-* **Bryan Wolff**
+* **Bryan Wolff** - bryan.wolff@hotmail.com
 * **Diego Fernandes Gonçalves Martins**
 * **Marco Aurelio Amaral Henriques**
 
