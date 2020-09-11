@@ -57,10 +57,11 @@ The dash server will be running and to access the application just access:
 ```
 http://127.0.0.1:8050/
 ```
-Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" on line 52 of the "interface.py" file. Obs: The variable value must be in milliseconds (ms).
+Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" on line 52 of the "interface.py" file. 
 ```
 intervalfreq = 1000
 ```
+**Obs:** The value of this variable must be in milliseconds (ms).
 
 ---
 ## Deployment
