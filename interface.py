@@ -11,7 +11,25 @@ import threading
 #OBS:
 #para evitar o erro 'lazy loading' execute esse arquivo com o seguinte código no terminal: waitress-serve interface:app.server
 
-############################################################################################################## BANCO DE DADOS
+# Parametros Globais ###########################################################################################################
+
+#intervalo de atualização da ferramenta em milissegundos (ms)
+intervalfreq = 10000
+
+#cores de cada elemento
+colors = {'background_graph':'#f8f8f8',
+	'paper-background-graph':'#f8f8f8',
+	'title-text':'#000000',
+	'pop-up':'#00bfff',
+	'pop-up-text':'#000000',
+	'pop-up-border':'#ffffff',
+	'node':'#00bfff',
+	'node-text':'#000000',
+	'edge':'#000000',
+	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
+}
+
+# BANCO DE DADOS ##############################################################################################################
 
 #Acessa o banco de dados - Retorna uma lista - cada termo é um bloco - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round
 def blockchain_list():
@@ -33,24 +51,7 @@ def blockchain_list():
 	db.close()
 	return blocks
 
-############################################################################################################## NETWORKX E PLOTLY
-
-#cores de cada elemento
-colors = {'background_graph':'#f8f8f8',
-	'paper-background-graph':'#f8f8f8',
-	'title-text':'#000000',
-	'pop-up':'#00bfff',
-	'pop-up-text':'#000000',
-	'pop-up-border':'#ffffff',
-	'node':'#00bfff',
-	'node-text':'#000000',
-	'edge':'#000000',
-	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
-}
-
-#intervalo de atualização da ferramenta em milissegundos (ms)
-intervalfreq = 10000
-
+# NETWORKX E PLOTLY ##############################################################################################################
 
 def Blockchain_Graph():
 
@@ -205,7 +206,7 @@ EXEMPLO P/ REMOVER OU ADD FERRAMENTAS DE ANALISE DO GRÁFICOS (BOTOES)
 """
 
 
-############################################################################################################## DASH
+# DASH ##############################################################################################################
 
 
 
