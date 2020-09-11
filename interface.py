@@ -48,6 +48,9 @@ colors = {'background_graph':'#f8f8f8',
 	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
 }
 
+#intervalo de atualização da ferramenta em milissegundos (ms)
+intervalfreq = 10000
+
 
 def Blockchain_Graph():
 
@@ -241,16 +244,18 @@ def serve_layout():
 
 							dcc.Interval( #atualizar o gráfico a cada 10 segundos
             							id='interval_component',
-            							interval=10000, #em ms
+            							interval=intervalfreq, #em ms
             							n_intervals=0
-        						),
-							html.H6('ID range:'),
+        						)
+							"""
+							,html.H6('ID range:'),
 							dcc.RadioItems(
                 						id='id_range',
                							options=[{'label': i, 'value': i} for i in [10, 15, 20, 'all']],
                 						value='Linear',
                							labelStyle={'display': 'inline-block'}
             						)
+							"""
 						]
            				)
 		     		]
