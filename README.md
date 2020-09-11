@@ -1,4 +1,4 @@
-# About The Project
+# About The Project Blockchain Graphical User Interface
 
 Blockchain Graphical User Interface is a Python tool for monitoring the dynamic evolution of a single node blockchain on the network under the control of a consensus mechanism. For practical development, the application has been integrated with the [PPoS](https://github.com/regras/bc_pos) protocol.
 
