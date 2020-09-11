@@ -57,12 +57,16 @@ The dash server will be running and to access the application just access:
 ```
 http://127.0.0.1:8050/
 ```
-Upon opening the url, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds.
+Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds.
 
 ---
 ## Deployment
 
-This section presents some additional notes on how to deploy this to another active system. To implement the application in the consensus engine, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the blockchain_list() function of the "interface.py" file. This function is responsible for reading the information from the database returning a list where each element is a block of the blockchain. To reuse this application in another consensus mechanism, some modifications are needed in the way data is collected in each protocol by the blockchain_list() function. Extracting the relevant information from the cited function of the protocol, it may be necessary to adjust how the Blockchain_Graph() function of the "interface.py" file will work with this data. It is important to emphasize that the tool is still under development and will still undergo several improvements.
+This section presents some additional notes on how to deploy this to another active system. 
+
+To implement the application in the consensus engine, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the blockchain_list() function of the "interface.py" file. This function is responsible for reading the information from the database returning a list where each element is a block of the blockchain. To reuse this application in another consensus mechanism, some modifications are needed in the way data is collected in each protocol by the blockchain_list() function. Extracting the relevant information from the cited function of the protocol, it may be necessary to adjust how the Blockchain_Graph() function of the "interface.py" file will work with this data. 
+
+It is important to emphasize that the tool is still under development and will still undergo several improvements.
 
 ---
 ## Built With
