@@ -16,23 +16,23 @@ What you need to install to run the software and how to install it on Linux Ubun
 
 #### Requested Python Libraries:
 
-- Networkx
+- **Networkx**
 ```
 sudo pip install networkx
 ```
-- Graphviz
+- **Graphviz**
 ```
 sudo pip install graphviz
 ```
-- Plotly
+- **Plotly**
 ```
 sudo pip install plotly
 ```
-- Dash
+- **Dash**
 ```
 sudo pip install dash==1.16.0
 ```
-- SQLite 3
+- **SQLite3 **
 ```
 sudo apt-get install sqlite3
 ```
