@@ -29,11 +29,13 @@ colors = {'background_graph':'#f8f8f8',
 	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
 }
 
+#localização do banco de dados da blockchain
+databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'
+
 # DATABASE ###################################################################################################################
 
 #Acessa o banco de dados - Retorna uma lista - cada termo é um bloco - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round
-def blockchain_list():
-	databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'	
+def blockchain_list():	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
 	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round FROM localChains')
