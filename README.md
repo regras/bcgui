@@ -1,7 +1,6 @@
 # bcgui
 
-Is a Python tool for monitoring the dynamic evolution of a single node blockchain on the network under the control of a consensus mechanism. 
-For practical development, the application has been integrated with the [PPoS](https://github.com/regras/bc_pos) protocol.
+Blockchain Graphical User Interface is a Python tool for monitoring the dynamic evolution of a single node blockchain on the network under the control of a consensus mechanism. For practical development, the application has been integrated with the [PPoS](https://github.com/regras/bc_pos) protocol.
 
 ---
 ## Getting Started
@@ -38,6 +37,12 @@ sudo apt-get install sqlite3
 
 
 ### How to Use
+
+Before running the application, you need the consensus mechanism [PPoS] (https://github.com/regras/bc_pos/tree/pos_graphic_interface), into which the application has been integrated. This link represents the testbed to evaluate PPoS consensus blockchain.
+
+After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the blockchain_list() function of the "interface.py" file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol PPoS.
+
+After defining the variable "databaseLocation", the application can be started and executed together with the consensus protocol.
 
 To start the application, open the Linux terminal and type:
 
