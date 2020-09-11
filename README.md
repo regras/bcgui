@@ -18,23 +18,23 @@ What you need to install to run the software and how to install it on Linux Ubun
 
 - **Networkx**
 ```
-sudo pip install networkx
+pip install networkx
 ```
 - **Graphviz**
 ```
-sudo pip install graphviz
+pip install graphviz
 ```
 - **Plotly**
 ```
-sudo pip install plotly
+pip install plotly
 ```
 - **Dash**
 ```
-sudo pip install dash==1.16.0
+pip install dash==1.16.0
 ```
 - **SQLite3**
 ```
-sudo apt-get install sqlite3
+apt-get install sqlite3
 ```
 
 
