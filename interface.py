@@ -31,9 +31,7 @@ colors = {'background_graph':'#f8f8f8',
 }
 
 #localização do banco de dados da blockchain
-databaseLocation = 'bc_pos-master/blocks/blockchain.db'
-
-#'bc_pos-pos_graphic_interface/blocks/blockchain.db'
+databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'
 
 # DATABASE ###################################################################################################################
 
