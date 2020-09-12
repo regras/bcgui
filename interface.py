@@ -32,6 +32,10 @@ colors = {'background_graph':'#f8f8f8',
 #localização do banco de dados da blockchain
 databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'
 
+host='127.0.0.1'
+
+port=8050
+
 # DATABASE ###################################################################################################################
 
 #Acessa o banco de dados - Retorna uma lista - cada termo é um bloco - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round
@@ -285,6 +289,6 @@ def update_my_graph(interval_component):
 
 
 if __name__ == '__main__':
-	app.run_server(debug=True, use_reloader=True, host='127.0.0.1',port=8050)
+	app.run_server(debug=True, use_reloader=True, host=host,port=port)
 	#debug=True significa que o Dash atualizará automaticamente o navegador quando você fizer uma alteração no código.
 		
