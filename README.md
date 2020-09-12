@@ -57,7 +57,15 @@ The dash server will be running and to access the application just access:
 ```
 http://127.0.0.1:8050/
 ```
-Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. 
+Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. It is also possible to change the application's website by changing the ip host and port in the "GLOBAL PARAMETERS" section as shown below:
+```
+host='127.0.0.1'
+```
+```
+port=8050
+```
+
+In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. 
 ```
 intervalfreq = 1000
 ```
