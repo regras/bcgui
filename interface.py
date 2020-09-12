@@ -23,22 +23,28 @@ colors = {'background_graph':'#f8f8f8',
 	'pop-up':'#00bfff',
 	'pop-up-text':'#000000',
 	'pop-up-border':'#ffffff',
-	'node':'#00bfff',
+	'node-stable':'#00bfff',
+	'node-instable':'#ff0000',
 	'node-text':'#000000',
 	'edge':'#000000',
 	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
 }
 
 #localização do banco de dados da blockchain
-databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'
+databaseLocation = 'bc_pos-master/blocks/blockchain.db'
+
+#'bc_pos-pos_graphic_interface/blocks/blockchain.db'
 
 # DATABASE ###################################################################################################################
 
 #Acessa o banco de dados - Retorna uma lista - cada termo é um bloco - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round
-def blockchain_list():	
+def blockchain_list(rangeID):	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round FROM localChains')
+
+	#all 'SELECT id, hash, prev_hash, arrive_time, round, stable FROM localChains'
+
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, stable FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
 	a = cursor.fetchall()
 	blocks = []
 	i=0
@@ -49,21 +55,23 @@ def blockchain_list():
 		blocks[i].append(b[2]) #prev_hash
 		blocks[i].append(b[3]) #arrive_time
 		blocks[i].append(b[4]) #round
+		blocks[i].append(b[5]) #stable
 		i = i + 1
 	db.close()
 	return blocks
 
 # NETWORKX AND PLOTLY ########################################################################################################
 
-def Blockchain_Graph():
+def Blockchain_Graph(rangeID):
 
 	#gera a lista com os blocos
-	blockchain_data = blockchain_list()
+	blockchain_data = blockchain_list(rangeID)
 
 	G = nx.DiGraph() #gera um gráfico vazio
 
 	hovertext_node=[] #contem o texto pop-up do bloco
 	text_node=[] #contem o texto dentro do bloco
+	color_node=[]#contem a cor do node
 
 	popup_layout = "<b>ID: </b>{}<br><b>Hash: </b>{}<br><b>Prev. Hash: </b>{}<br><b>Arrive Time: </b>{}<br><b>Round: </b>{}"
 
@@ -72,6 +80,12 @@ def Blockchain_Graph():
 		G.add_node(block[1])
 		text_node.append(block[0])
 		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4]))
+		
+		#o bloco estaveis e instaveis possuirao cores diferentes
+		if block[5] == 1:
+			color_node.append(colors['node-stable'])
+		else:
+			color_node.append(colors['node-instable'])
 
 	#cria os edges (ligando o hash ao prev_hash de cada bloco)
 	for block in blockchain_data:
@@ -131,29 +145,9 @@ def Blockchain_Graph():
 		node_x.append(x)
 		node_y.append(y)
 
-	#definições dos nodes
-	node_trace = go.Scatter(
-				x=node_x, 
-				y=node_y, 
-				hovertext=hovertext_node, 
-				text=text_node, 
-				textposition="middle center", 
-				mode='markers+text', 
-				hoverinfo="text", 
-				marker=dict(	size=40, 
-						color=colors['node'], 
-						symbol='square'
-					),
-				line=dict(	width=40
-					),
-				textfont=dict(	color=colors['node-text']
-					),
-				opacity=1
-				)
-
 	#renderiza o gráfico
 	Graph = go.Figure(
-			data=[edge_trace, node_trace], 
+			data=[edge_trace], 
 			layout=go.Layout(
 						title='',#titulo dentro do gráfico 
 						titlefont_size=16, 
@@ -180,7 +174,35 @@ def Blockchain_Graph():
 						clickmode='event+select'
 					)
 			)
- 
+
+
+
+	#adicionando todos os nodes individualmente
+	#configura cada node
+	for w in range(0, len(text_node)):
+		Graph.add_trace(
+			go.Scatter(
+				x=[node_x[w]], 
+				y=[node_y[w]], 
+				hovertext=[hovertext_node[w]], 
+				text=[text_node[w]], 
+				textposition="middle center", 
+				mode='markers+text', 
+				hoverinfo="text",
+				marker=dict(	size=40, 
+						color=color_node[w], 
+						symbol='square',
+						#cmin=0, # stable variable
+					),
+				line=dict(	width=40
+					),
+				textfont=dict(	color=colors['node-text']
+					),
+				opacity=1
+				)
+				)
+
+
 	Graph.update_layout(
 				#layout do pop-up
 				hoverlabel=dict(
@@ -239,9 +261,18 @@ def serve_layout():
 				html.Div(
 					className="row", 
 					children = [
+							'ID range:',
+
+							dcc.RadioItems(
+                						id='id_range',
+               							options=[{'label': i, 'value': i} for i in [10, 20, 50, 100]],
+                						value=10,
+               							labelStyle={'display': 'inline-block'}
+            						),
+
 							dcc.Graph(	
 								id='my-graph',
-								figure=Blockchain_Graph(),
+								figure=Blockchain_Graph(10),
 								config=tools,
 							),
 
@@ -250,16 +281,8 @@ def serve_layout():
             							interval=intervalfreq, #em ms
             							n_intervals=0
         						)
-							"""
-							,html.H6('ID range:'),
-							dcc.RadioItems(
-                						id='id_range',
-               							options=[{'label': i, 'value': i} for i in [10, 15, 20, 'all']],
-                						value='Linear',
-               							labelStyle={'display': 'inline-block'}
-            						)
-							"""
-						]
+							
+						]#, style={'width': '48%', 'float': 'right', 'display': 'inline-block'}
            				)
 		     		]
 			)
@@ -270,9 +293,9 @@ app.layout = serve_layout
 
 @app.callback(
 	Output('my-graph','figure'),
-	[Input('interval_component','n_intervals')]
+	[Input('interval_component','n_intervals'), Input('id_range','value')]
 )
-def update_my_graph(interval_component):
+def update_my_graph(interval_component, id_range):
 
 #	if(node.Status( )):
 #      		node.sema.acquire( )
@@ -281,7 +304,7 @@ def update_my_graph(interval_component):
 #		node.sema.release( )
 #		return graph
 
-	return Blockchain_Graph()
+	return Blockchain_Graph(id_range)
 
 
 if __name__ == '__main__':
