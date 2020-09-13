@@ -24,7 +24,7 @@ colors = {'background_graph':'#f8f8f8',
 	'pop-up-text':'#000000',
 	'pop-up-border':'#ffffff',
 	'node-stable':'#00bfff',
-	'node-instable':'#ff0000',
+	'node-unstable':'#ff0000',
 	'node-text':'#000000',
 	'edge':'#000000',
 	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
@@ -83,7 +83,7 @@ def Blockchain_Graph(rangeID):
 		if block[5] == 1:
 			color_node.append(colors['node-stable'])
 		else:
-			color_node.append(colors['node-instable'])
+			color_node.append(colors['node-unstable'])
 
 	#cria os edges (ligando o hash ao prev_hash de cada bloco)
 	for block in blockchain_data:
