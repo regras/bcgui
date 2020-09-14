@@ -87,7 +87,7 @@ def Blockchain_Graph(rangeID):
 
 	#cria os edges (ligando o hash ao prev_hash de cada bloco)
 	for block in blockchain_data:
-		if block[2] != "":
+		if block[2] != "" and (block[2] in G.nodes):
 			G.add_edge(block[2], block[1])
 		else:
 			continue
@@ -143,9 +143,30 @@ def Blockchain_Graph(rangeID):
 		node_x.append(x)
 		node_y.append(y)
 
+	#definições dos nodes
+	node_trace = go.Scatter(
+				x=node_x, 
+				y=node_y, 
+				hovertext=hovertext_node, 
+				text=text_node, 
+				textposition="middle center", 
+				mode='markers+text', 
+				hoverinfo="text", 
+				marker=dict(	size=40, 
+						color=color_node, 
+						symbol='square'
+					),
+				line=dict(	width=40
+					),
+				textfont=dict(	color=colors['node-text']
+					),
+				opacity=1
+				)
+
+
 	#renderiza o gráfico
 	Graph = go.Figure(
-			data=[edge_trace], 
+			data=[edge_trace, node_trace], 
 			layout=go.Layout(
 						title='',#titulo dentro do gráfico 
 						titlefont_size=16, 
@@ -173,32 +194,30 @@ def Blockchain_Graph(rangeID):
 					)
 			)
 
-
-
-	#adicionando todos os nodes individualmente
-	#configura cada node
-	for w in range(0, len(text_node)):
-		Graph.add_trace(
-			go.Scatter(
-				x=[node_x[w]], 
-				y=[node_y[w]], 
-				hovertext=[hovertext_node[w]], 
-				text=[text_node[w]], 
-				textposition="middle center", 
-				mode='markers+text', 
-				hoverinfo="text",
-				marker=dict(	size=40, 
-						color=color_node[w], 
-						symbol='square',
-						#cmin=0, # stable variable
-					),
-				line=dict(	width=40
-					),
-				textfont=dict(	color=colors['node-text']
-					),
-				opacity=1
-				)
-				)
+#	#adicionando todos os nodes individualmente
+#	#configura cada node
+#	for w in range(0, len(text_node)):
+#		Graph.add_trace(
+#			go.Scatter(
+#				x=[node_x[w]], 
+#				y=[node_y[w]], 
+#				hovertext=[hovertext_node[w]], 
+#				text=[text_node[w]], 
+#				textposition="middle center", 
+#				mode='markers+text', 
+#				hoverinfo="text",
+#				marker=dict(	size=40, 
+#						color=color_node[w], 
+#						symbol='square',
+#						#cmin=0, # stable variable
+#					),
+#				line=dict(	width=40
+#					),
+#				textfont=dict(	color=colors['node-text']
+#					),
+#				opacity=1
+#				)
+#				)
 
 
 	Graph.update_layout(
