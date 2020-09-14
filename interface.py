@@ -25,6 +25,7 @@ colors = {'background_graph':'#f8f8f8',
 	'pop-up-border':'#ffffff',
 	'node-stable':'#00bfff',
 	'node-unstable':'#ff0000',
+	'node-log':'#abeaff',
 	'node-text':'#000000',
 	'edge':'#000000',
 	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
@@ -35,35 +36,55 @@ databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'
 
 # DATABASE ###################################################################################################################
 
-#Acessa o banco de dados - Retorna uma lista - cada termo é um bloco - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round
+#Acessa o banco de dados
 def blockchain_list(rangeID):	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
 
-	#all 'SELECT id, hash, prev_hash, arrive_time, round, stable FROM localChains'
+	#all 'SELECT id, hash, prev_hash, arrive_time, round, stable, proof_hash FROM localChains'
 
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, stable FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
+	#Cria uma lista - cada termo é um bloco da localChains - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, stable, proof_hash
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
 	a = cursor.fetchall()
-	blocks = []
+	blocks_localChains = []
 	i=0
-	for b in a:
-		blocks.append([])
-		blocks[i].append(b[0]) #id
-		blocks[i].append(b[1]) #hash
-		blocks[i].append(b[2]) #prev_hash
-		blocks[i].append(b[3]) #arrive_time
-		blocks[i].append(b[4]) #round
-		blocks[i].append(b[5]) #stable
+	for x in a:
+		blocks_localChains.append([])
+		blocks_localChains[i].append(x[0]) #id
+		blocks_localChains[i].append(x[1]) #hash
+		blocks_localChains[i].append(x[2]) #prev_hash
+		blocks_localChains[i].append(x[3]) #arrive_time
+		blocks_localChains[i].append(x[4]) #round
+		blocks_localChains[i].append(x[5]) #proof_hash
+		blocks_localChains[i].append(x[6]) #stable
 		i = i + 1
+	
+
+	#Cria uma lista - cada termo é um bloco da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash FROM log_block WHERE id = (SELECT MAX(id) FROM localchains) AND hash != (SELECT MAX(id) FROM localchains)')
+	b = cursor.fetchall()
+	blocks_log_blocks = []
+	i=0
+	for y in b:
+		blocks_log_blocks.append([])
+		blocks_log_blocks[i].append(y[0]) #id
+		blocks_log_blocks[i].append(y[1]) #hash
+		blocks_log_blocks[i].append(y[2]) #prev_hash
+		blocks_log_blocks[i].append(y[3]) #arrive_time
+		blocks_log_blocks[i].append(y[4]) #round
+		blocks_log_blocks[i].append(y[5]) #proof_hash
+		i = i + 1
+
 	db.close()
-	return blocks
+
+	return blocks_localChains, blocks_log_blocks
 
 # NETWORKX AND PLOTLY ########################################################################################################
 
 def Blockchain_Graph(rangeID):
 
 	#gera a lista com os blocos
-	blockchain_data = blockchain_list(rangeID)
+	blockchain_data, blockchain_log = blockchain_list(rangeID)
 
 	G = nx.DiGraph() #gera um gráfico vazio
 
@@ -71,26 +92,45 @@ def Blockchain_Graph(rangeID):
 	text_node=[] #contem o texto dentro do bloco
 	color_node=[]#contem a cor do node
 
-	popup_layout = "<b>ID: </b>{}<br><b>Hash: </b>{}<br><b>Prev. Hash: </b>{}<br><b>Arrive Time: </b>{}<br><b>Round: </b>{}"
+	popup_layout = "<b>ID: </b>{}<br><b>Hash: </b>{}<br><b>Prev. Hash: </b>{}<br><b>Arrive Time: </b>{}<br><b>Round: </b>{}<br><b>Proof_Hash: </b>{}"
 
-	#cria os nodes com base no hash inserindo seus respectivos textos
+        #localChains 	############################
+
+	#cria os nodes da localChains com base no hash inserindo seus respectivos textos
 	for block in blockchain_data:
 		G.add_node(block[1])
 		text_node.append(block[0])
-		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4]))
+		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4],block[5]))
 		
 		#o bloco estaveis e instaveis possuirao cores diferentes
-		if block[5] == 1:
+		if block[6] == 1:
 			color_node.append(colors['node-stable'])
 		else:
 			color_node.append(colors['node-unstable'])
 
-	#cria os edges (ligando o hash ao prev_hash de cada bloco)
+
+	#cria os edges (ligando o hash ao prev_hash de cada bloco) dos blocos da localChain
 	for block in blockchain_data:
 		if block[2] != "" and (block[2] in G.nodes):
 			G.add_edge(block[2], block[1])
 		else:
 			continue
+
+	#log_block	############################
+	#cria os nodes da log_blockcom base no hash inserindo seus respectivos textos
+	for block in blockchain_log:
+		G.add_node(block[1])
+		text_node.append(block[0])
+		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4],block[5]))
+		color_node.append(colors['node-log'])
+
+	#cria os edges (ligando o hash ao prev_hash de cada bloco) dos blocos da log_block
+	for block in blockchain_log:
+		if block[2] != "" and (block[2] in G.nodes):
+			G.add_edge(block[2], block[1])
+		else:
+			continue
+
 
 	#Define o layout semelhante ao da blockchain
 	pos = graphviz_layout(G, prog='dot', args="-Grankdir=LR")
