@@ -27,8 +27,7 @@ colors = {'background_graph':'#f8f8f8',
 	'node-unstable':'#00bfff',
 	'node-log':'#add8e6',
 	'node-text':'#000000',
-	'edge':'#000000',
-	'web_backgroung':'#000000' #pesquisar como mudar o background da pag inteira
+	'edge':'#000000'
 }
 
 #localização do banco de dados da blockchain
@@ -40,8 +39,6 @@ databaseLocation = 'bc_pos-pos_graphic_interface/blocks/blockchain.db'
 def blockchain_list(rangeID):	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
-
-	#all 'SELECT id, hash, prev_hash, arrive_time, round, stable, proof_hash FROM localChains'
 
 	#Cria uma lista - cada termo é um bloco da localChains - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, stable, proof_hash
 	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
@@ -91,6 +88,7 @@ def Blockchain_Graph(rangeID):
 	hovertext_node=[] #contem o texto pop-up do bloco
 	text_node=[] #contem o texto dentro do bloco
 	color_node=[]#contem a cor do node
+	dash_type= []#contém o tipo do tracejado dos edges "solid" ou "dot" para tracejado	
 
 	popup_layout = "<b>ID: </b>{}<br><b>Hash: </b>{}<br><b>Prev. Hash: </b>{}<br><b>Arrive Time: </b>{}<br><b>Round: </b>{}<br><b>Proof_Hash: </b>{}"
 
@@ -101,7 +99,7 @@ def Blockchain_Graph(rangeID):
 		G.add_node(block[1])
 		text_node.append(block[0])
 		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4],block[5]))
-		
+
 		#o bloco estaveis e instaveis possuirao cores diferentes
 		if block[6] == 1:
 			color_node.append(colors['node-stable'])
@@ -113,6 +111,7 @@ def Blockchain_Graph(rangeID):
 	for block in blockchain_data:
 		if block[2] != "" and (block[2] in G.nodes):
 			G.add_edge(block[2], block[1])
+			dash_type.append("solid")
 		else:
 			continue
 
@@ -128,6 +127,7 @@ def Blockchain_Graph(rangeID):
 	for block in blockchain_log:
 		if block[2] != "" and (block[2] in G.nodes):
 			G.add_edge(block[2], block[1])
+			dash_type.append("dot")
 		else:
 			continue
 
@@ -160,20 +160,20 @@ def Blockchain_Graph(rangeID):
 		edge_y.append(y1)
 		edge_y.append(None)
 
-	#definições dos edges
+	'''#definições dos edges
 	edge_trace = go.Scatter(
 				x=edge_x, 
 				y=edge_y,
 				line=dict(	
 						width=3, 
-						color=colors['edge']
-						#,dash = "dot" #para edge pontilhado
+						color=colors['edge'],
+						dash = "solid", #para edge pontilhado usar "dot"
 					), 
 				hoverinfo='none', 
 				mode='lines', 
 				line_shape='spline', 
 				opacity=1
-				)
+				)'''
 
 	#separa todas as coordenadas x e y dos nodes 
 	node_x = []
@@ -183,7 +183,7 @@ def Blockchain_Graph(rangeID):
 		node_x.append(x)
 		node_y.append(y)
 
-	#definições dos nodes
+	'''#definições dos nodes
 	node_trace = go.Scatter(
 				x=node_x, 
 				y=node_y, 
@@ -201,12 +201,12 @@ def Blockchain_Graph(rangeID):
 				textfont=dict(	color=colors['node-text']
 					),
 				opacity=1
-				)
+				)'''
 
 
 	#renderiza o gráfico
 	Graph = go.Figure(
-			data=[edge_trace, node_trace], 
+			#data=[edge_trace, node_trace],
 			layout=go.Layout(
 						title='',#titulo dentro do gráfico 
 						titlefont_size=16, 
@@ -234,30 +234,51 @@ def Blockchain_Graph(rangeID):
 					)
 			)
 
-#	#adicionando todos os nodes individualmente
-#	#configura cada node
-#	for w in range(0, len(text_node)):
-#		Graph.add_trace(
-#			go.Scatter(
-#				x=[node_x[w]], 
-#				y=[node_y[w]], 
-#				hovertext=[hovertext_node[w]], 
-#				text=[text_node[w]], 
-#				textposition="middle center", 
-#				mode='markers+text', 
-#				hoverinfo="text",
-#				marker=dict(	size=40, 
-#						color=color_node[w], 
-#						symbol='square',
-#						#cmin=0, # stable variable
-#					),
-#				line=dict(	width=40
-#					),
-#				textfont=dict(	color=colors['node-text']
-#					),
-#				opacity=1
-#				)
-#				)
+	#cria todos os edges um por um
+	#configura cada edge
+	i = 0
+	for w in range(0, len(dash_type)-1):
+		Graph.add_trace(
+			go.Scatter(
+				x=[edge_x[i],edge_x[i+1]], 
+				y=[edge_y[i],edge_y[i+1]],
+				line=dict(	
+						width=3, 
+						color=colors['edge'],
+						dash = dash_type[w], #para edge pontilhado usar "dot"
+					), 
+				hoverinfo='none', 
+				mode='lines', 
+				line_shape='spline', 
+				opacity=1
+				)
+				)
+		i = i + 3
+
+	#cria todos os blocos um por um
+	#configura cada node
+	for w in range(0, len(text_node)-1):
+		Graph.add_trace(
+			go.Scatter(
+				x=[node_x[w]], 
+				y=[node_y[w]], 
+				hovertext=[hovertext_node[w]], 
+				text=[text_node[w]], 
+				textposition="middle center", 
+				mode='markers+text', 
+				hoverinfo="text",
+				marker=dict(	size=40, 
+						color=color_node[w], 
+						symbol='square',
+						#cmin=0, # stable variable
+					),
+				line=dict(	width=40
+					),
+				textfont=dict(	color=colors['node-text']
+					),
+				opacity=1
+				)
+				)
 
 
 	Graph.update_layout(
