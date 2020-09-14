@@ -16,7 +16,7 @@ What you need to install to run the software and how to install it on Linux Ubun
 
 #### Requested Python Libraries:
 
-- **Networkx**
+- **Networkx** (version >= 2.4)
 ```
 pip install networkx
 ```
