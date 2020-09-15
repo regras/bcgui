@@ -20,14 +20,15 @@ intervalfreq = 10000
 colors = {'background_graph':'#f8f8f8',
 	'paper-background-graph':'#f8f8f8',
 	'title-text':'#000000',
-	'pop-up':'#bdbdbd',
+	'pop-up':'#cfcfcf',
 	'pop-up-text':'#000000',
 	'pop-up-border':'#ffffff',
 	'node-stable':'#00c227',
 	'node-unstable':'#00bfff',
 	'node-log':'#add8e6',
 	'node-text':'#000000',
-	'edge':'#000000'
+	'edge':'#000000',
+	'background_legend':'#e8e8e8'
 }
 
 #localização do banco de dados da blockchain
@@ -353,13 +354,16 @@ def Blockchain_Graph(rangeID):
 						bordercolor=colors['pop-up-border']
 						)
 			)
-	Graph.update_layout(	legend=dict(
-    				orientation="h",
-    				yanchor="top",
-    				#y=1.02,
-    				xanchor="left",
-    				#x=1
-				)
+
+	Graph.update_layout(
+    				legend=dict(
+       					x=0,
+        				y=1,
+        				#traceorder="reversed",
+        				bgcolor=colors['background_legend'],
+        				#bordercolor="Black",
+        				#borderwidth=2
+					)
 			)
 
 	#atributos do layout: https://plotly.com/javascript/reference/
