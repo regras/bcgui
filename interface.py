@@ -58,7 +58,7 @@ def blockchain_list(rangeID):
 	
 
 	#Cria uma lista - cada termo é um bloco da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash FROM log_block WHERE id = (SELECT MAX(id) FROM localchains) AND hash != (SELECT MAX(id) FROM localchains)')
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash from log_block t1 WHERE t1.id = (SELECT MAX(id) FROM LocalChains) AND NOT EXISTS (SELECT hash from localChains t2 WHERE t1.hash == t2.hash)')
 	b = cursor.fetchall()
 	blocks_log_blocks = []
 	i=0
@@ -71,7 +71,6 @@ def blockchain_list(rangeID):
 		blocks_log_blocks[i].append(y[4]) #round
 		blocks_log_blocks[i].append(y[5]) #proof_hash
 		i = i + 1
-
 	db.close()
 
 	return blocks_localChains, blocks_log_blocks
@@ -117,16 +116,16 @@ def Blockchain_Graph(rangeID):
 
 	#log_block	############################
 	#cria os nodes da log_blockcom base no hash inserindo seus respectivos textos
-	for block in blockchain_log:
-		G.add_node(block[1])
-		text_node.append(block[0])
-		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4],block[5]))
+	for block2 in blockchain_log:
+		G.add_node(block2[1])
+		text_node.append(block2[0])
+		hovertext_node.append(popup_layout.format(block2[0],block2[1],block2[2],block2[3],block2[4],block2[5]))
 		color_node.append(colors['node-log'])
 
 	#cria os edges (ligando o hash ao prev_hash de cada bloco) dos blocos da log_block
-	for block in blockchain_log:
-		if block[2] != "" and (block[2] in G.nodes):
-			G.add_edge(block[2], block[1])
+	for block2 in blockchain_log:
+		if block2[2] != "" and (block2[2] in G.nodes):
+			G.add_edge(block2[2], block2[1])
 			dash_type.append("dot")
 		else:
 			continue
@@ -210,7 +209,7 @@ def Blockchain_Graph(rangeID):
 			layout=go.Layout(
 						title='',#titulo dentro do gráfico 
 						titlefont_size=16, 
-						showlegend=False, 
+						showlegend=True, 
 						plot_bgcolor=colors['background_graph'],
 						paper_bgcolor=colors['paper-background-graph'],
 						hovermode='closest', 
@@ -237,7 +236,7 @@ def Blockchain_Graph(rangeID):
 	#cria todos os edges um por um
 	#configura cada edge
 	i = 0
-	for w in range(0, len(dash_type)-1):
+	for w in range(0, len(dash_type)):
 		Graph.add_trace(
 			go.Scatter(
 				x=[edge_x[i],edge_x[i+1]], 
@@ -257,7 +256,7 @@ def Blockchain_Graph(rangeID):
 
 	#cria todos os blocos um por um
 	#configura cada node
-	for w in range(0, len(text_node)-1):
+	for w in range(0, len(text_node)):
 		Graph.add_trace(
 			go.Scatter(
 				x=[node_x[w]], 
@@ -290,6 +289,14 @@ def Blockchain_Graph(rangeID):
 						font_color=colors['pop-up-text'],
 						bordercolor=colors['pop-up-border']
 						)
+			)
+	Graph.update_layout(	legend=dict(
+    				orientation="h",
+    				yanchor="top"
+    				#y=1.02,
+    				#xanchor="left",
+    				#x=1
+				)
 			)
 
 	#atributos do layout: https://plotly.com/javascript/reference/
