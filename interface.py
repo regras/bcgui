@@ -241,6 +241,7 @@ def Blockchain_Graph(rangeID):
 	t,a,b = 0,0,0
 	j = True
 	for w in range(0, len(dash_type)):
+		#lógica para plotar somente uma legenda de cada trace
 		if dash_type[w] == 'solid' and a == 0:
 			t = 0
 			j = True
@@ -288,7 +289,7 @@ def Blockchain_Graph(rangeID):
 	legend_node = ["Confirmed block","Not confirmed block","Not selected block"]
 	t,a,b,c = 0,0,0,0
 	for w in range(0, len(text_node)):
-
+		#lógica para plotar somente uma legenda de cada trace
 		if color_node[w] == colors['node-stable'] and a == 0:
 			t = 0
 			j = True
@@ -354,15 +355,18 @@ def Blockchain_Graph(rangeID):
 						bordercolor=colors['pop-up-border']
 						)
 			)
-
-	Graph.update_layout(
+	
+	Graph.update_layout(	#layout da legenda
     				legend=dict(
        					x=0,
         				y=1,
         				#traceorder="reversed",
         				bgcolor=colors['background_legend'],
         				#bordercolor="Black",
-        				#borderwidth=2
+        				#borderwidth=2,
+					itemclick = False,
+					itemdoubleclick = False
+					
 					)
 			)
 
@@ -462,4 +466,3 @@ def update_my_graph(interval_component, id_range):
 if __name__ == '__main__':
 	app.run_server(debug=True, use_reloader=True, host='127.0.0.1',port=8050)
 	#debug=True significa que o Dash atualizará automaticamente o navegador quando você fizer uma alteração no código.
-		
