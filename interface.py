@@ -209,7 +209,6 @@ def Blockchain_Graph(rangeID):
 			layout=go.Layout(
 						title='',#titulo dentro do gráfico 
 						titlefont_size=16, 
-						showlegend=True, 
 						plot_bgcolor=colors['background_graph'],
 						paper_bgcolor=colors['paper-background-graph'],
 						hovermode='closest', 
@@ -232,15 +231,38 @@ def Blockchain_Graph(rangeID):
 						clickmode='event+select'
 					)
 			)
-
+	
 	#cria todos os edges um por um
 	#configura cada edge
+	
+	legend_edges=["Link between two accepted blocks", "Link for an unselected block"]
 	i = 0
+	t,a,b = 0,0,0
+	j = True
 	for w in range(0, len(dash_type)):
+		if dash_type[w] == 'solid' and a == 0:
+			t = 0
+			j = True
+		
+		elif dash_type[w] == 'solid' and a == 1:
+			t = 0
+			j = False
+
+		elif dash_type[w] == 'dot' and b == 0:
+			t = 1
+			j = True
+		
+		elif dash_type[w] == 'dot' and b == 1:
+			t = 1
+			j = False
+
+
 		Graph.add_trace(
 			go.Scatter(
 				x=[edge_x[i],edge_x[i+1]], 
 				y=[edge_y[i],edge_y[i+1]],
+				name=legend_edges[t],
+				showlegend=j, 
 				line=dict(	
 						width=3, 
 						color=colors['edge'],
@@ -253,10 +275,43 @@ def Blockchain_Graph(rangeID):
 				)
 				)
 		i = i + 3
+		if dash_type[w] == 'solid':
+			a = 1
+		else:
+			b = 1
+		
 
 	#cria todos os blocos um por um
 	#configura cada node
+
+	legend_node = ["Confirmed block","Not confirmed block","Not selected block"]
+	t,a,b,c = 0,0,0,0
 	for w in range(0, len(text_node)):
+
+		if color_node[w] == colors['node-stable'] and a == 0:
+			t = 0
+			j = True
+
+		elif color_node[w] == colors['node-stable'] and a == 1:
+			t = 0
+			j = False
+
+		elif color_node[w] == colors['node-unstable'] and b == 0:
+			t = 1
+			j = True
+
+		elif color_node[w] == colors['node-unstable'] and b == 1:
+			t = 1
+			j = False
+
+		elif color_node[w] == colors['node-log'] and c == 0:
+			t = 2
+			j = True
+
+		elif color_node[w] == colors['node-log'] and c == 1:
+			t = 2
+			j = False
+
 		Graph.add_trace(
 			go.Scatter(
 				x=[node_x[w]], 
@@ -266,6 +321,8 @@ def Blockchain_Graph(rangeID):
 				textposition="middle center", 
 				mode='markers+text', 
 				hoverinfo="text",
+				name=legend_node[t],
+				showlegend = j, 
 				marker=dict(	size=40, 
 						color=color_node[w], 
 						symbol='square',
@@ -278,6 +335,12 @@ def Blockchain_Graph(rangeID):
 				opacity=1
 				)
 				)
+		if color_node[w] == colors['node-stable']:
+			a = 1
+		elif color_node[w] == colors['node-unstable']:
+			b = 1
+		elif color_node[w] == colors['node-log']:
+			c = 1	
 
 
 	Graph.update_layout(
@@ -292,9 +355,9 @@ def Blockchain_Graph(rangeID):
 			)
 	Graph.update_layout(	legend=dict(
     				orientation="h",
-    				yanchor="top"
+    				yanchor="top",
     				#y=1.02,
-    				#xanchor="left",
+    				xanchor="left",
     				#x=1
 				)
 			)
