@@ -42,7 +42,7 @@ def blockchain_list(rangeID):
 	cursor = db.cursor()
 
 	#Cria uma lista - cada termo é um bloco da localChains - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, stable, proof_hash
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable, subuser FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
 	a = cursor.fetchall()
 	blocks_localChains = []
 	i=0
@@ -55,11 +55,13 @@ def blockchain_list(rangeID):
 		blocks_localChains[i].append(x[4]) #round
 		blocks_localChains[i].append(x[5]) #proof_hash
 		blocks_localChains[i].append(x[6]) #stable
+		blocks_localChains[i].append(x[7]) #stable
+
 		i = i + 1
 	
 
 	#Cria uma lista - cada termo é um bloco da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash from log_block t1 WHERE t1.id = (SELECT MAX(id) FROM LocalChains) AND NOT EXISTS (SELECT hash from localChains t2 WHERE t1.hash == t2.hash)')
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser from log_block t1 WHERE t1.id = (SELECT MAX(id) FROM LocalChains) AND NOT EXISTS (SELECT hash from localChains t2 WHERE t1.hash == t2.hash)')
 	b = cursor.fetchall()
 	blocks_log_blocks = []
 	i=0
@@ -71,6 +73,7 @@ def blockchain_list(rangeID):
 		blocks_log_blocks[i].append(y[3]) #arrive_time
 		blocks_log_blocks[i].append(y[4]) #round
 		blocks_log_blocks[i].append(y[5]) #proof_hash
+		blocks_log_blocks[i].append(y[6]) #subuser
 		i = i + 1
 	db.close()
 
@@ -90,7 +93,7 @@ def Blockchain_Graph(rangeID):
 	color_node=[]#contem a cor do node
 	dash_type= []#contém o tipo do tracejado dos edges "solid" ou "dot" para tracejado	
 
-	popup_layout = "<b>ID: </b>{}<br><b>Hash: </b>{}<br><b>Prev. Hash: </b>{}<br><b>Arrive Time: </b>{}<br><b>Round: </b>{}<br><b>Proof_Hash: </b>{}"
+	popup_layout = "<b>ID: </b>{}<br><b>Hash: </b>{}<br><b>Prev. Hash: </b>{}<br><b>Arrive Time: </b>{}<br><b>Round: </b>{}<br><b>Proof_Hash: </b>{}<br><b>Successful draws of the creator node: </b>{}"
 
         #localChains 	############################
 
@@ -98,7 +101,7 @@ def Blockchain_Graph(rangeID):
 	for block in blockchain_data:
 		G.add_node(block[1])
 		text_node.append(block[0])
-		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4],block[5]))
+		hovertext_node.append(popup_layout.format(block[0],block[1],block[2],block[3],block[4],block[5],block[7]))
 
 		#o bloco estaveis e instaveis possuirao cores diferentes
 		if block[6] == 1:
@@ -120,7 +123,7 @@ def Blockchain_Graph(rangeID):
 	for block2 in blockchain_log:
 		G.add_node(block2[1])
 		text_node.append(block2[0])
-		hovertext_node.append(popup_layout.format(block2[0],block2[1],block2[2],block2[3],block2[4],block2[5]))
+		hovertext_node.append(popup_layout.format(block2[0],block2[1],block2[2],block2[3],block2[4],block2[5],block2[6]))
 		color_node.append(colors['node-log'])
 
 	#cria os edges (ligando o hash ao prev_hash de cada bloco) dos blocos da log_block
@@ -439,7 +442,7 @@ def serve_layout():
             							n_intervals=0
         						)
 							
-						]#, style={'width': '48%', 'float': 'right', 'display': 'inline-block'}
+						]#, style={'width': '60%', 'float': 'left', 'display': 'inline-block','textAlign': "center"}
            				)
 		     		]
 			)
