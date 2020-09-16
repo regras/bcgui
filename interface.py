@@ -9,16 +9,12 @@ import sqlite3
 import threading
 import sys
 import datetime
-from dateutil import tz
 
 
 #OBS:
 #para evitar o erro 'lazy loading' execute esse arquivo com o seguinte código no terminal: waitress-serve interface:app.server
 
 # GLOBAL PARAMETERS ###########################################################################################################
-
-#intervalo de atualização da ferramenta em milissegundos (ms)
-intervalfreq = 10000
 
 #cores de cada elemento
 colors = {'background_graph':'#f8f8f8',
@@ -425,7 +421,6 @@ def serve_layout():
 					),
 
 				html.Div(
-					className="row", 
 					children = [
 							'ID range:',
 
@@ -436,15 +431,31 @@ def serve_layout():
                							labelStyle={'display': 'inline-block'}
             						),
 
+							'Update Period:',
+							dcc.RadioItems(
+                						id='update_period',
+               							options=[
+        								{'label':'2,5s', 'value': 2500},
+        								{'label':'5s', 'value': 5000},
+        								{'label':'10s', 'value': 10000},
+        								{'label':'30s', 'value': 30000},
+        								{'label':'1min', 'value': 60000},
+        								{'label':'10min', 'value': 600000}
+    									],
+                						value=10000,
+               							labelStyle={'display': 'inline-block'}
+            						),
+							html.Button(children="Pause Updates", id='btn_1', n_clicks=0),
 							dcc.Graph(	
 								id='my-graph',
 								figure=Blockchain_Graph(10),
 								config=tools,
 							),
 
+
 							dcc.Interval( #atualizar o gráfico a cada 10 segundos
             							id='interval_component',
-            							interval=intervalfreq, #em ms
+            							interval=10000, #em ms
             							n_intervals=0
         						)
 							
@@ -457,21 +468,44 @@ app.layout = serve_layout
 
 #As "entradas" e "saídas" da nossa interface de aplicação são descritas declarativamente através do @app.callback, de forma a criar Dash interativos
 
+#atualização do gráfico
 @app.callback(
 	Output('my-graph','figure'),
 	[Input('interval_component','n_intervals'), Input('id_range','value')]
 )
 def update_my_graph(interval_component, id_range):
-
-#	if(node.Status( )):
-#      		node.sema.acquire( )
-#		graph = Blockchan_Graph( )
-#		node.clear( )
-#		node.sema.release( )
-#		return graph
-
 	return Blockchain_Graph(id_range)
 
+#radioitem id range
+@app.callback(
+	Output('interval_component','interval'),
+	[Input('update_period','value')]
+)
+def update_period_refresh(update_period):
+	return update_period
+
+
+#botão desativar/ativar updates
+@app.callback(
+	Output('interval_component','max_intervals'),
+	[Input('btn_1', 'n_clicks')]
+)
+def disabled_update_refresh(btn_1):
+	if (btn_1%2) == 0:
+		return -1
+	else:
+		return 0
+
+#mudar o texto do botão
+@app.callback(
+	Output('btn_1', 'children'),
+	[Input('interval_component','max_intervals')]
+)
+def update_period_refresh(interval_component):
+	if interval_component == -1:
+		return "Pause Updates"
+	else:
+		return "Start Updates"
 
 if __name__ == '__main__':
 	if(len(sys.argv) >= 2):
