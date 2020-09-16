@@ -52,7 +52,7 @@ To start the application, open the Linux terminal and type:
 python3 interface.py
 ```
 
-The dash server will be running on ip host 127.0.0.1 and port 8050. To access the application just access:
+The dash server will be running on ip host ```127.0.0.1``` and port ```8050```. To access the application just access:
 
 ```
 http://127.0.0.1:8050/
