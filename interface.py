@@ -410,17 +410,47 @@ def serve_layout():
 			#style = dict(backgroundColor= colors['web_backgroung']),
 			children = [
     			
+
 				html.Div(
 					style=dict(
 						textAlign= 'center', 
 						color=colors['title-text']
 						),
 					
-					children = [html.H1('Blockchain Graph')]
+					children = [
+							html.H1('Blockchain Graph')
+						]
 									
 					),
 
+
+
 				html.Div(
+					style=dict(
+							width = '80%',
+							float = 'left',
+							textAlign = "center"#,
+						), #style={'width': '60%', 'float': 'left', 'display': 'inline-block','textAlign': "center"}
+						
+					children = [	
+							dcc.Graph(	
+								id='my-graph',
+								figure=Blockchain_Graph(10),
+								config=tools
+							),
+							dcc.Interval( #atualizar o gráfico a cada 10 segundos
+            							id='interval_component',
+            							interval=10000, #em ms
+            							n_intervals=0
+        						)
+						]		
+					),
+
+
+
+				html.Div(
+					#style=dict(),
+						
 					children = [
 							'ID range:',
 
@@ -429,8 +459,15 @@ def serve_layout():
                							options=[{'label': i, 'value': i} for i in [10, 20, 50, 100]],
                 						value=10,
                							labelStyle={'display': 'inline-block'}
-            						),
+            							)
+						]#,style=dict()
+					),
 
+
+				html.Div(
+					#style=dict(),
+						
+					children = [	
 							'Update Period:',
 							dcc.RadioItems(
                 						id='update_period',
@@ -444,24 +481,30 @@ def serve_layout():
     									],
                 						value=10000,
                							labelStyle={'display': 'inline-block'}
-            						),
-							html.Button(children="Pause Updates", id='btn_1', n_clicks=0),
-							dcc.Graph(	
-								id='my-graph',
-								figure=Blockchain_Graph(10),
-								config=tools,
-							),
+            						)
+						]			
+					),
 
 
-							dcc.Interval( #atualizar o gráfico a cada 10 segundos
-            							id='interval_component',
-            							interval=10000, #em ms
-            							n_intervals=0
-        						)
+
+				html.Div(
+					#style=dict(),
+						
+					children = [	
+							html.Button(	children="Pause Updates", 
+									id='btn_1', 
+									n_clicks=0
+								)
+						]			
+					)
+
 							
-						]#, style={'width': '60%', 'float': 'left', 'display': 'inline-block','textAlign': "center"}
-           				)
-		     		]
+							
+
+
+							
+				]
+
 			)
 
 app.layout = serve_layout
@@ -491,10 +534,12 @@ def update_period_refresh(update_period):
 	[Input('btn_1', 'n_clicks')]
 )
 def disabled_update_refresh(btn_1):
+
 	if (btn_1%2) == 0:
 		return -1
 	else:
 		return 0
+
 
 #mudar o texto do botão
 @app.callback(
