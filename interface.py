@@ -213,6 +213,7 @@ def Blockchain_Graph(rangeID):
 						plot_bgcolor=colors['background_graph'],
 						paper_bgcolor=colors['paper-background-graph'],
 						hovermode='closest', 
+						dragmode = 'pan',
 						margin=dict(	b=20, #tamanho do gráfico
 								l=5,
 								r=5,
