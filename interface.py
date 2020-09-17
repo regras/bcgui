@@ -80,6 +80,78 @@ def blockchain_list(rangeID):
 
 	return blocks_localChains, blocks_log_blocks
 
+def explorer(num,node='-1'):
+    receivedblocks = 0
+    numround = 0
+    callsync = 0
+    callsyncrev = 0
+    numrevblock = 0
+    avgrevblock = 0
+    avgconf = 0
+    numblockstable = 0
+    lateblocks = 0
+    numblocks = 0
+    try:
+        db = sqlite3.connect(databaseLocation)
+        cursor = db.cursor()
+        #calculating performance
+        cursor.execute("SELECT * FROM localChains WHERE id > ((SELECT MAX(id) FROM localChains WHERE stable = 1) - %d) and stable = 1 and round <> 0" %int(num))
+        queries = cursor.fetchall()
+        sround = queries[0][2]
+        if(queries):
+            numblockstable = len(queries)
+            for query in queries:
+                avgconf = avgconf + float(1) / float(query[14] - query[2])
+            avgconf = avgconf / len(queries)
+        
+        #calculating performance
+        cursor.execute("SELECT * FROM reversion WHERE sround > %d" %sround)
+        queries = cursor.fetchall()
+        if(queries):
+            callsync = len(queries)
+            for query in queries:
+                #sync[query[0],query[1],query[2]] = []
+                cursor.execute("SELECT * FROM block_reversion WHERE idreversion = %d" %int(query[0]))
+                revqueries = cursor.fetchall()
+                if(revqueries):
+                    callsyncrev = callsyncrev + 1
+                    for revquery in revqueries:
+                        numrevblock = numrevblock + 1
+                        #sync[query[0],query[1],query[2]] = sync[query[0],query[1],query[2]] + [[revquery[1], revquery[2], revquery[3], revquery[4]]]       
+            
+        #get arrived blocks
+        nowTime = time.mktime(datetime.datetime.now().timetuple())
+        currentRound = int(math.floor((float(nowTime) - float(parameter.GEN_ARRIVE_TIME))/parameter.timeout))
+        cursor.execute("SELECT count(*) FROM arrived_block WHERE round >= %d and round < %d and node <> '%s'" %(sround,currentRound,node))
+        queries = cursor.fetchone()
+        if(queries):
+            receivedblocks = queries[0]
+
+        #get produced blocks
+        cursor.execute("SELECT count(*) FROM arrived_block WHERE round >= %d and round < %d" %(sround,currentRound))
+        queries = cursor.fetchone()
+        if(queries):
+            numblocks = queries[0]
+            
+        
+        #get rounds to produce all blocks
+        cursor.execute("SELECT (max(round) - min(round)) FROM arrived_block WHERE round >= %d" %sround)
+        queries = cursor.fetchone()
+        if(queries):
+            numround = queries[0]        
+               
+        #late block number
+        cursor.execute("SELECT COUNT(*) FROM arrived_block WHERE status = 2")
+        queries = cursor.fetchone()
+        if(queries):
+            lateblocks = queries[0]
+        db.close()
+
+    except Exception as e:
+        x = str(e)
+
+    return round(avgconf,2),callsync,callsyncrev,numrevblock,receivedblocks,numround,numblockstable,lateblocks,numblocks
+
 # NETWORKX AND PLOTLY ########################################################################################################
 
 def Blockchain_Graph(rangeID):
@@ -428,7 +500,8 @@ def serve_layout():
 					style=dict(
 							width = '80%',
 							float = 'left',
-							textAlign = "center"#,
+							textAlign = "center",
+							#height='300px'#,
 						), #style={'width': '60%', 'float': 'left', 'display': 'inline-block','textAlign': "center"}
 						
 					children = [	
@@ -446,7 +519,6 @@ def serve_layout():
 					),
 
 
-
 				html.Div(
 					#style=dict(),
 						
@@ -462,6 +534,7 @@ def serve_layout():
 						]#,style=dict()
 					),
 
+				html.Br(style = {'height': '1px'}),
 
 				html.Div(
 					#style=dict(),
@@ -484,7 +557,7 @@ def serve_layout():
 						]			
 					),
 
-
+				html.Br(style = {'height': '1px'}),
 
 				html.Div(
 					#style=dict(),
@@ -495,13 +568,41 @@ def serve_layout():
 									n_clicks=0
 								)
 						]			
+					),
+				
+				html.Br(),
+				
+				html.Div(
+						
+					children = [
+							html.B("Range blocks info: ", style={'font-size':15}),
+
+							    dcc.Input( 
+								#placeholder = "type an integer",
+        							id='num_explorer',
+        							type='number',
+        							value=10,
+								style={'font-size':12, 'width': '80px', 'float': 'right', 'height': '30px'}
+    								)
+						]		
+					),
+
+				html.Div(						
+					children = [	html.Br(),
+							html.Div([html.B(" Block confirmation average (block/round): "), html.B(id="num_avgconf")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Sync function calls number: "), html.B(id="num_callsync")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Reversions number: "), html.B(id="num_callsyncrev")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Reversed blocks number: "), html.B(id="num_numrevblock")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Received blocks number: "), html.B(id="num_receivedblocks")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Round number: "), html.B(id="num_numround")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Confirmation Blocks number: "), html.B(id="num_numblockstable")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Late blocks number: "), html.B(id="num_lateblocks")], style = {'border': '1px solid black'}),
+							html.Div([html.B(" Produced blocks: "), html.B(id="num_numblocks")], style = {'border': '1px solid black'})
+						],
+					style={'font-size':9, 'width': '20%', 'float': 'right'}
+	
 					)
 
-							
-							
-
-
-							
 				]
 
 			)
@@ -550,6 +651,22 @@ def update_period_refresh(interval_component):
 		return "Pause Updates"
 	else:
 		return "Start Updates"
+
+#atualizar as informações do explorer
+@app.callback(
+	[Output('num_avgconf', 'children'),
+	Output('num_callsync', 'children'),
+	Output('num_callsyncrev', 'children'),
+	Output('num_numrevblock', 'children'),
+	Output('num_receivedblocks', 'children'),
+	Output('num_numround', 'children'),
+	Output('num_numblockstable', 'children'),
+	Output('num_lateblocks', 'children'),
+	Output('num_numblocks', 'children')],
+	[Input('interval_component','n_intervals'),Input('num_explorer','value')]
+)
+def update_explorer_infos(interval_component,num_explorer):
+	return explorer(num_explorer)
 
 if __name__ == '__main__':
 	if(len(sys.argv) >= 2):
