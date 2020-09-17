@@ -150,7 +150,13 @@ def explorer(num,node='-1'):
     except Exception as e:
         x = str(e)
 
-    return round(avgconf,2),callsync,callsyncrev,numrevblock,receivedblocks,numround,numblockstable,lateblocks,numblocks
+    if callsyncrev > 0:
+        k = float(numrevblock) / callsyncrev
+        y = round(k,2)
+    else:
+        y = 0
+
+    return round(avgconf,2),y,callsync,callsyncrev,numrevblock,receivedblocks,numround,numblockstable,lateblocks,numblocks
 
 # NETWORKX AND PLOTLY ########################################################################################################
 
@@ -589,15 +595,16 @@ def serve_layout():
 
 				html.Div(						
 					children = [	html.Br(),
-							html.Div([html.B(" Block confirmation average (block/round): "), html.B(id="num_avgconf")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Sync function calls number: "), html.B(id="num_callsync")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Reversions number: "), html.B(id="num_callsyncrev")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Reversed blocks number: "), html.B(id="num_numrevblock")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Received blocks number: "), html.B(id="num_receivedblocks")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Round number: "), html.B(id="num_numround")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Confirmation Blocks number: "), html.B(id="num_numblockstable")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Late blocks number: "), html.B(id="num_lateblocks")], style = {'border': '1px solid black'}),
-							html.Div([html.B(" Produced blocks: "), html.B(id="num_numblocks")], style = {'border': '1px solid black'})
+							html.Div([html.B("⠀Block confirmation average (block/round): "), html.B(id="num_avgconf")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Reversed blocks number average: "), html.B(id="num_y")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Sync function calls number: "), html.B(id="num_callsync")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Reversions number: "), html.B(id="num_callsyncrev")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Reversed blocks number: "), html.B(id="num_numrevblock")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Received blocks number: "), html.B(id="num_receivedblocks")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Round number: "), html.B(id="num_numround")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Confirmation Blocks number: "), html.B(id="num_numblockstable")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Late blocks number: "), html.B(id="num_lateblocks")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Produced blocks: "), html.B(id="num_numblocks")], style = {'border': '1px solid black'})
 						],
 					style={'font-size':9, 'width': '20%', 'float': 'right'}
 	
@@ -655,6 +662,7 @@ def update_period_refresh(interval_component):
 #atualizar as informações do explorer
 @app.callback(
 	[Output('num_avgconf', 'children'),
+	Output('num_y', 'children'),
 	Output('num_callsync', 'children'),
 	Output('num_callsyncrev', 'children'),
 	Output('num_numrevblock', 'children'),
