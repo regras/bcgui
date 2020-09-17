@@ -331,7 +331,7 @@ def Blockchain_Graph(rangeID):
 				hoverinfo="text",
 				name=legend_node[t],
 				showlegend = j, 
-				marker=dict(	size=40, 
+				marker=dict(	size=25, 
 						color=color_node[w], 
 						symbol='square',
 						#cmin=0, # stable variable
@@ -381,7 +381,7 @@ def Blockchain_Graph(rangeID):
 	return Graph
 
 #configuração das ferramentas de analise do gráfico
-tools =  {'displayModeBar':True,'scrollZoom':False, 'displaylogo':False}
+tools =  {'displayModeBar':True,'scrollZoom':True, 'displaylogo':False}
 #todas as configs: https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js#L6
 
 """
