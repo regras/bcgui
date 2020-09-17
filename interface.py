@@ -6,7 +6,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input
 import sqlite3
-import threading
 import sys
 import datetime
 
