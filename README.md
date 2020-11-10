@@ -113,4 +113,4 @@ See also the list of [contributors](https://github.com/regras/bcgui/graphs/contr
 
 ---
 ## More information:
-* Wolff B.; Martins D. F. G.; Henriques M. A. A., "Ferramenta de monitoramento gráfico para suporte à criação e testes de novos mecanismos de consenso em blockchains", WTICG- SBSeg 2020, Brazilian Computer Society, Brazil, Oct. 2020.
+* [Wolff B.; Martins D. F. G.; Henriques M. A. A., "Ferramenta de monitoramento gráfico para suporte à criação e testes de novos mecanismos de consenso em blockchains", WTICG- SBSeg 2020, Brazilian Computer Society, Brazil, Oct. 2020.](https://submissao.ciente.live/wp-content/uploads/2020/10/208599.pdf)
