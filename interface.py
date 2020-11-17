@@ -200,10 +200,13 @@ def Blockchain_Graph(rangeID):
 	#log_block	############################
 	#cria os nodes da log_blockcom base no hash inserindo seus respectivos textos
 	for block2 in blockchain_log:
-		G.add_node(block2[1])
-		text_node.append(block2[0])
-		hovertext_node.append(popup_layout.format(block2[0],block2[1],block2[2],block2[3],block2[7],block2[4],block2[5],block2[6]))
-		color_node.append(colors['node-log'])
+		if block2[2] != "" and (block2[2] in G.nodes):
+			G.add_node(block2[1])
+			text_node.append(block2[0])
+			hovertext_node.append(popup_layout.format(block2[0],block2[1],block2[2],block2[3],block2[7],block2[4],block2[5],block2[6]))
+			color_node.append(colors['node-log'])
+		else:
+			continue
 
 	#cria os edges (ligando o hash ao prev_hash de cada bloco) dos blocos da log_block
 	for block2 in blockchain_log:
