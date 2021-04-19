@@ -42,9 +42,9 @@ apt-get install sqlite3
 
 Before running the application, you need the consensus mechanism [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution), into which the application has been integrated. This link represents the testbed to evaluate PPoS consensus blockchain.
 
-After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the ```globalParameters.py``` file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution).
+After having access to the project, it is necessary to define the location of the blockchain database in the variable ```databaseLocation``` in the ```globalParameters.py``` file. The blockchain data is a file named ```blockchain.db``` which is found in the ```blocks``` folder of the protocol [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution).
 
-After defining the variable "databaseLocation", the application can be started and executed together with the consensus protocol.
+After defining the variable ```databaseLocation```, the application can be started and executed together with the consensus protocol.
 
 To start the application, open the Linux terminal and type:
 
@@ -93,7 +93,10 @@ This section is responsible for processing the data acquired from the database. 
 
 This section is responsible for all information that will be presented on the web interface. This is where the page layout and the elements that the user can interact with are configured.
 
+* **"Start Server" section - ```bcgui.py```**
 
+This is the initiator of the Blockchain Graphical User Interface. 
+As stated earlier, the interface can be initialized from the command: ```python3 bcgui.py <ip host>```
 
 ---
 ## Built With
