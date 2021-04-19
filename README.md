@@ -42,14 +42,14 @@ apt-get install sqlite3
 
 Before running the application, you need the consensus mechanism [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution), into which the application has been integrated. This link represents the testbed to evaluate PPoS consensus blockchain.
 
-After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution).
+After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the ```globalParameters.py``` file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution).
 
 After defining the variable "databaseLocation", the application can be started and executed together with the consensus protocol.
 
 To start the application, open the Linux terminal and type:
 
 ```
-python3 interface.py
+python3 bcgui.py
 ```
 
 The dash server will be running on ip host ```127.0.0.1``` and port ```8050```. To access the application just access:
@@ -62,7 +62,7 @@ Upon opening the link, a preview of the blockchain will be shown allowing intera
 It is also possible to change the application's website by changing the ip host as shown below:
 
 ```
-python3 interface.py <ip host>
+python3 bcgui.py <ip host>
 ```
 
 In the current state of the tool, the blockchain will be updated every 10 seconds as default, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, it is possible to change directly in the web interface.
@@ -73,25 +73,27 @@ This section presents some additional notes on how to deploy this to another act
 
 It is important to emphasize that the tool is still under development and will still undergo several improvements.
 
-To implement the application in a consensus mechanism, it is necessary to understand the structure of the code. The entire code of the "interface.py" file is divided into four sections, which are: "GLOBAL PARAMETERS", "DATABASE", "NETWORKX AND PLOTLY" and "DASH".
+To implement the application in a consensus mechanism, it is necessary to understand the structure of the code. The entire interface code is divided into four modules, which are: ```globalParameter.py```, ```dataBase.py```, ```blockchainGraph.py```, ```dashLayout.py``` and ```bcgui.py```.
 
-* **"GLOBAL PARAMETERS" section**
+* **"GLOBAL PARAMETERS" section - ```globalParameter.py```**
 
 This section has parameters corresponding to the colors of each page element and the location of the blockchain database. It is important to define the location of the blockchain database in the variable "databaseLocation" in this section so that the application can extract the necessary data.
 
-* **"DATABASE" section**
+* **"DATABASE" section - ```dataBase.py```**
 
 This section is responsible for reading the database, and it extracts all relevant information from the blockchain from the database. This reading is done through the function "blockchain_list()" which returns a list where each term is a block of the blockchain with its respective information. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data is collected in each protocol by the function "blockchain_list()".
 
 
-* **"NETWORKX AND PLOTLY" section**
+* **"NETWORKX AND PLOTLY" section - ```blockchainGraph.py```**
 
 This section is responsible for processing the data acquired from the database. This data is handled by the "Blockchain_Graph()" function, using the "Networkx" and "Plotly" libraries to return an interactive blockchain graph. In order to reuse this application in another consensus mechanism, some modifications will be necessary in the way the data will be handled by the "Blockchain_Graph()" function.
 
 
-* **"DASH" section**
+* **"DASH" section - ```dashLayout.py```**
 
 This section is responsible for all information that will be presented on the web interface. This is where the page layout and the elements that the user can interact with are configured.
+
+
 
 ---
 ## Built With
