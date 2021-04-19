@@ -59,10 +59,10 @@ http://127.0.0.1:8050/
 ```
 
 Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. 
-It is also possible to change the application's website by changing the ip host as shown below:
+It is also possible to change the application's website by changing the ip host and the port as shown below:
 
 ```
-python3 bcgui.py <ip host>
+python3 bcgui.py <ip host> <port>
 ```
 
 In the current state of the tool, the blockchain will be updated every 10 seconds as default, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, it is possible to change directly in the web interface.
