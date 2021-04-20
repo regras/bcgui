@@ -17,3 +17,11 @@ colors = {'background_graph':'#f8f8f8',
 
 #localização do banco de dados da blockchain
 databaseLocation = '../blocks/blockchain.db'
+
+
+#configuração do consenso
+# Time in seconds
+timeout = 90
+
+# Initial Arrive Time
+GEN_ARRIVE_TIME = 1573486728
