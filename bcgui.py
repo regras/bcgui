@@ -1,7 +1,7 @@
 import sys
 from dashLayout import app
 
-#execute: python3 interface.py <ip host>
+#execute: python3 bcgui.py <ip host>
 #OBS: para evitar o erro 'lazy loading' execute esse arquivo com o seguinte código no terminal: waitress-serve interface:app.server
 
 if __name__ == '__main__':

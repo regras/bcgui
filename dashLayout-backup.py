@@ -2,7 +2,6 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input
-import dash_bootstrap_components as dbc
 
 from globalParameters import colors
 from dataBase import explorer
@@ -13,8 +12,8 @@ from blockchainGraph import Blockchain_Graph, tools
 
 
 #importa o template css e passa para o Dash
-#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__)#, external_stylesheets=external_stylesheets)
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 #título da página web
 app.title = "Blockchain Graph" 
@@ -22,38 +21,32 @@ app.title = "Blockchain Graph"
 #definindo uma função para o layout para instanciar no app.layout (layout do app web)
 #isso faz com que ao recarregar a pagina será feita uma nova consulta no banco para renderizar o gráfico
 def serve_layout():
-	return html.Div(	#div com todos os elementos
+	return html.Div(
+			#style = dict(backgroundColor= colors['web_backgroung']),
 			children = [
-
-				#header
-				html.Div(		
-					children = [	html.Img(src="assets/logo.png"),
-									dbc.Navbar(
-										children=[
-											html.A(
-												# Use row and col to control vertical alignment of logo / brand
-												dbc.Row(
-													[
-														dbc.Col(
-															dbc.NavbarBrand("Blockchain Graphical User Interface", className="header_bar")
-														),
-													],
-													align="center",
-													no_gutters=True,
-												),
-												href="https://github.com/regras/bcgui",
-											)
-										]
-									),
-						],
-					className = "app_header"				
-					),
-				
-				html.Br(),
-				html.Br(),
-				html.Br(),
-				#gráfico
+    			
 				html.Div(
+					style=dict(
+						textAlign= 'center', 
+						color=colors['title-text']
+						),
+					
+					children = [
+							html.H1('Blockchain Graph')
+						]
+									
+					),
+
+
+
+				html.Div(
+					style=dict(
+							width = '80%',
+							float = 'left',
+							textAlign = "center",
+							#height='300px'#,
+						), #style={'width': '60%', 'float': 'left', 'display': 'inline-block','textAlign': "center"}
+						
 					children = [	
 							dcc.Graph(	
 								id='my-graph',
@@ -65,11 +58,10 @@ def serve_layout():
             							interval=10000, #em ms
             							n_intervals=0
         						)
-						],
-					className = "app_Graph"		
+						]		
 					),
 
-				#Radio Item (ID)
+
 				html.Div(
 					#style=dict(),
 						
@@ -82,14 +74,14 @@ def serve_layout():
                 						value=10,
                							labelStyle={'display': 'inline-block'}
             							)
-						],
-					className = "radio_ID"
+						]#,style=dict()
 					),
 
 				html.Br(style = {'height': '1px'}),
 
-				#Rádio Item (Update)
 				html.Div(
+					#style=dict(),
+						
 					children = [	
 							'Update Period:',
 							dcc.RadioItems(
@@ -103,72 +95,59 @@ def serve_layout():
         								{'label':'10min', 'value': 600000}
     									],
                 						value=10000,
-               							labelStyle={'display': 'inline-block'},
+               							labelStyle={'display': 'inline-block'}
             						)
-						],
-					className = "radio_update_period"			
+						]			
 					),
 
-				html.Br(),
+				html.Br(style = {'height': '1px'}),
 
-				#button pause updates
 				html.Div(
 					#style=dict(),
 						
 					children = [	
 							html.Button(	children="Pause Updates", 
 									id='btn_1', 
-									n_clicks=0,
-									className="button_pause_updates"
+									n_clicks=0
 								)
-						]		
+						]			
 					),
-					
+				
 				html.Br(),
-				html.Br(),
-				#Range blocks
+				
 				html.Div(
+						
 					children = [
-							html.B("Range blocks info: ", className = "range_blocks_title"),
+							html.B("Range blocks info: ", style={'font-size':15}),
+
 							    dcc.Input( 
 								#placeholder = "type an integer",
         							id='num_explorer',
         							type='number',
         							value=10,
-									className = "range_blocks_input",
+								style={'font-size':12, 'width': '80px', 'float': 'right', 'height': '30px'}
     								)
-						],
-					className = "range_blocks"	
+						]		
 					),
-					
-				html.B(children= [html.Br(),"Statistics:"], className = "statistics_title"),
-				
-				html.Br(),
-				#tabela explorer
+
 				html.Div(						
 					children = [	html.Br(),
-							html.Div([html.B("⠀Block confirmation average (block/round): "), html.B(id="num_avgconf")],className = "label_table"),
-							html.Div([html.B("⠀Reversed blocks number average: "), html.B(id="num_y")], className = "label_table"),
-							html.Div([html.B("⠀Sync function calls number: "), html.B(id="num_callsync")], className = "label_table"),
-							html.Div([html.B("⠀Reversions number: "), html.B(id="num_callsyncrev")], className = "label_table"),
-							html.Div([html.B("⠀Reversed blocks number: "), html.B(id="num_numrevblock")], className = "label_table"),
-							html.Div([html.B("⠀Received blocks number: "), html.B(id="num_receivedblocks")], className = "label_table"),
-							html.Div([html.B("⠀Round number: "), html.B(id="num_numround")], className = "label_table"),
-							html.Div([html.B("⠀Confirmation Blocks number: "), html.B(id="num_numblockstable")], className = "label_table"),
-							html.Div([html.B("⠀Late blocks number: "), html.B(id="num_lateblocks")], className = "label_table"),
-							html.Div([html.B("⠀Produced blocks: "), html.B(id="num_numblocks")], className = "label_table")
+							html.Div([html.B("⠀Block confirmation average (block/round): "), html.B(id="num_avgconf")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Reversed blocks number average: "), html.B(id="num_y")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Sync function calls number: "), html.B(id="num_callsync")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Reversions number: "), html.B(id="num_callsyncrev")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Reversed blocks number: "), html.B(id="num_numrevblock")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Received blocks number: "), html.B(id="num_receivedblocks")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Round number: "), html.B(id="num_numround")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Confirmation Blocks number: "), html.B(id="num_numblockstable")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Late blocks number: "), html.B(id="num_lateblocks")], style = {'border': '1px solid black'}),
+							html.Div([html.B("⠀Produced blocks: "), html.B(id="num_numblocks")], style = {'border': '1px solid black'})
 						],
-					#style={'font-size':9, 'width': '20%', 'float': 'right'},
-
-					className = "table_explorer"
+					style={'font-size':9, 'width': '20%', 'float': 'right'}
 	
-					),
-				html.H5(children="Research Group on Applied Security (ReGrAS) - FEEC - DCA - UNICAMP", className="rodape")
+					)
 
-
-				],
-
-			className = "app_elements"
+				]
 
 			)
 

@@ -3,20 +3,17 @@ import datetime
 import time
 import math
 
-from globalParameters import databaseLocation, timeout, GEN_ARRIVE_TIME, colors
+from globalParameters import databaseLocation, timeout, GEN_ARRIVE_TIME
+
 
 # DATABASE ###################################################################################################################
 
 #Acessa o banco de dados
-#retorna listas, onde cada uma possuí cada blocos (dentro de uma lista), onde a primeira a ser retornada deve ser a cadeia principal
-#Todos os blocos (de cada lista), devem possuir os seguintes parametros na seguinte ordem:
-#id, hash, prev_hash, arrive_time(UTC), round, proof_hash, subuser, arrive_time(local datetime), cor_do_bloco
 def blockchain_list(rangeID):	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
 
-    #cadeia principal
-	#Cria uma lista - cada termo é um bloco da localChains- cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
+	#Cria uma lista - cada termo é um bloco da localChains - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, stable, proof_hash
 	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable, subuser FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
 	a = cursor.fetchall()
 	blocks_localChains = []
@@ -29,16 +26,15 @@ def blockchain_list(rangeID):
 		blocks_localChains[i].append(x[3]) #arrive_time (UTC)
 		blocks_localChains[i].append(x[4]) #round
 		blocks_localChains[i].append(x[5]) #proof_hash
+		blocks_localChains[i].append(x[6]) #stable
 		blocks_localChains[i].append(x[7]) #subuser
 		blocks_localChains[i].append(datetime.datetime.utcfromtimestamp(float(x[3]))) #arrive_time (local datetime)
-		if x[6] == 1:
-			blocks_localChains[i].append(colors['node-stable'])
-		else:
-			blocks_localChains[i].append(colors['node-unstable'])
+
 		i = i + 1
+	
 
 	#Cria uma lista - cada termo é um bloco da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser FROM log_block t1 WHERE t1.id > (SELECT MAX(ID) - {} FROM log_block) and EXISTS (SELECT * FROM log_block t2 WHERE t2.round <= t1.round and t1.id == t2.id and t2.arrive_time < t1.arrive_time and t2.proof_hash < t1.proof_hash) and NOT EXISTS (SELECT * FROM localChains t3 WHERE t3.hash == t1.hash)'.format(rangeID))
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser from log_block t1 WHERE t1.id = (SELECT MAX(id) FROM LocalChains) AND NOT EXISTS (SELECT hash from localChains t2 WHERE t1.hash == t2.hash)')
 	b = cursor.fetchall()
 	blocks_log_blocks = []
 	i=0
@@ -52,32 +48,12 @@ def blockchain_list(rangeID):
 		blocks_log_blocks[i].append(y[5]) #proof_hash
 		blocks_log_blocks[i].append(y[6]) #subuser
 		blocks_log_blocks[i].append(datetime.datetime.utcfromtimestamp(float(y[3]))) #arrive_time (local datetime)
-		blocks_log_blocks[i].append(colors['node-log'])
 		i = i + 1
-    
-	#Cria uma lista - cada termo é um bloco revertido da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash, subuser
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser FROM log_block t1 WHERE t1.id > (SELECT MAX(ID) - {} FROM log_block) and NOT EXISTS (SELECT * FROM log_block t2 WHERE t2.round <= t1.round and t1.id == t2.id and t2.arrive_time < t1.arrive_time and t2.proof_hash < t1.proof_hash) and NOT EXISTS (SELECT * FROM localChains t3 WHERE t3.hash == t1.hash)'.format(rangeID))
-	c = cursor.fetchall()
-	reversed_blocks = []
-	i=0
-	for z in c:
-		reversed_blocks.append([])
-		reversed_blocks[i].append(z[0]) #id
-		reversed_blocks[i].append(z[1]) #hash
-		reversed_blocks[i].append(z[2]) #prev_hash
-		reversed_blocks[i].append(z[3]) #arrive_time (UTC)
-		reversed_blocks[i].append(z[4]) #round
-		reversed_blocks[i].append(z[5]) #proof_hash
-		reversed_blocks[i].append(z[6]) #subuser
-		reversed_blocks[i].append(datetime.datetime.utcfromtimestamp(float(z[3]))) #arrive_time (local datetime)
-		reversed_blocks[i].append(colors['node-rev'])
-		i = i + 1
-
 	db.close()
-	return blocks_localChains, blocks_log_blocks, reversed_blocks
+
+	return blocks_localChains, blocks_log_blocks
 
 
-#função para buscar algumas estatisticas da cadeia (blocos produzidos, revertidos, etc)
 def explorer(num,node='-1'):
     receivedblocks = 0
     numround = 0
