@@ -12,31 +12,21 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What you need to install to run the software and how to install it on Linux Ubuntu
+What you need to install to run the software and how to install it on Linux Ubuntu or Windows
 
-#### Requested Python Libraries:
+#### Requested Python Libraries: Networkx, Graphviz, Plotly, Dash and SQLite3
 
-- **Networkx** (version >= 2.4)
+- **Tutorial for linux Ubuntu**
 ```
-pip install networkx
+chmod +x requirements.sh
 ```
-- **Graphviz**
 ```
-pip install graphviz
+./requirements.sh
 ```
-- **Plotly**
+- **Tutorial for Windows**
 ```
-pip install plotly
+requirements.bat
 ```
-- **Dash**
-```
-pip install dash==1.16.0
-```
-- **SQLite3**
-```
-apt-get install sqlite3
-```
-
 
 ### How to Use
 
