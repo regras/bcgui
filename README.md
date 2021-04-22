@@ -27,7 +27,7 @@ chmod +x requirements.sh
 ```
 requirements.bat
 ```
-To install SQLite3 on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html), and run the file `` `sqldb3.exe```.
+To install SQLite3 on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html), and run the file ```sqldb3.exe```.
 
 ### How to Use
 
