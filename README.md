@@ -31,10 +31,9 @@ Open the terminal as an administrator in the project directory and type in order
    - Extract the content of the file that you downloaded in the previous section to the ```C:\sqlite``` folder
    
 3. To install graphviz correctly, follow this steps:
-   - Download graphviz-2.38.msi from [Graphviz Website](https://graphviz.gitlab.io/_pages/Download/Download_windows.html) and install and run the file ```setup```.
-   - Download the 2.7 wheel file you need from this [website](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygraphviz)
-   - Navigate to the directory that you downloaded the wheel file to
-   - Run ```pip install pygraphviz-1.3.1-cp27-none-win_amd64.whl``` on terminal as admin.
+   - Download the file from [Graphviz Website](https://graphviz.gitlab.io/_pages/Download/Download_windows.html) and install.
+   - Search for "pygraphviz" on this [website](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygraphviz), and download the wheel file you need.
+   - Open the wheel file or navigate to the directory that you downloaded and run ```pip install <file_name>.whl``` on terminal as admin.
 
 ### How to Use
 
