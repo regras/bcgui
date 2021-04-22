@@ -19,12 +19,12 @@ What you need to install to run the software and how to install it on Linux Ubun
 - **Tutorial for linux Ubuntu**
 
 Open the terminal as an administrator in the project directory and type in order:
-1. ```chmod +x requirements.sh```
-2. ```./requirements.sh```
+1. ```chmod +x requirements-linux.sh```
+2. ```./requirements-linux.sh```
 
 - **Tutorial for Windows**
 
-1. open cmd.exe as admin on the directory of the project and type:
+1. open cmd.exe as admin on the directory of the project and type: ```requirements-windows.bat```
 
 2. To install **SQLite3** on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html), and run the file ```sqldb3.exe```.
 
