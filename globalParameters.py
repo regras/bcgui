@@ -22,7 +22,7 @@ databaseLocation = '../blocks/blockchain.db'
 
 #configuração do consenso
 # Time in seconds
-timeout = 90
+timeout = 20
 
 # Initial Arrive Time
 GEN_ARRIVE_TIME = 1573486728

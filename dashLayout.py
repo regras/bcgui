@@ -147,7 +147,7 @@ def serve_layout():
 				#tabela explorer
 				html.Div(						
 					children = [	html.Br(),
-							html.Div([html.B("⠀Block confirmation average (block/round): "), html.B(id="num_avgconf")],className = "label_table"),
+							html.Div([html.B("⠀Block confirmation average latency [rounds]: "), html.B(id="num_avgconf")],className = "label_table"),
 							html.Div([html.B("⠀Reversed blocks number average: "), html.B(id="num_y")], className = "label_table"),
 							html.Div([html.B("⠀Sync function calls number: "), html.B(id="num_callsync")], className = "label_table"),
 							html.Div([html.B("⠀Reversions number: "), html.B(id="num_callsyncrev")], className = "label_table"),

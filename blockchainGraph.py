@@ -12,8 +12,10 @@ from dataBase import blockchain_list, explorer
 def Blockchain_Graph(rangeID):
 
 	#gera a lista com os blocos
-	aux = blockchain_list(rangeID)
-	data = [aux[0],aux[2],aux[1]]
+	#aux = blockchain_list(rangeID)
+	#data = [aux[0],aux[2],aux[1]]
+
+	data = blockchain_list(rangeID)
 
 	G = nx.DiGraph() #gera um gráfico vazio
 
@@ -121,8 +123,8 @@ def Blockchain_Graph(rangeID):
 				y=[G.nodes[node]['pos'][1]], 
 				hovertext=[G.nodes[node]['hovertext_node']], 
 				text=[G.nodes[node]['text_node']], 
-				textposition="middle center", 
-				mode='markers', #markes é para mostrar o contorno do bloco e text é p/ indice
+				textposition="top center", 
+				mode='markers+text', #markes é para mostrar o contorno do bloco e text é p/ indice
 				hoverinfo="text", # mostrar popup, também da para mostrar as coordenadas 'x', 'y', 'z' 
 				#name="legenda",
 				showlegend = False, 

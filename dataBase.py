@@ -74,7 +74,7 @@ def blockchain_list(rangeID):
 		i = i + 1
 
 	db.close()
-	return blocks_localChains, blocks_log_blocks, reversed_blocks
+	return blocks_localChains, blocks_log_blocks #, reversed_blocks
 
 
 #função para buscar algumas estatisticas da cadeia (blocos produzidos, revertidos, etc)
@@ -101,6 +101,7 @@ def explorer(num,node='-1'):
         for query in queries:
             avgconf = avgconf + float(1) / float(query[14] - query[2])
         avgconf = avgconf / len(queries)
+        avgconf = 1 / avgconf
     
     #calculating performance
     cursor.execute("SELECT * FROM reversion WHERE sround > %d" %sround)
@@ -121,6 +122,7 @@ def explorer(num,node='-1'):
     nowTime = time.mktime(datetime.datetime.now().timetuple())
     currentRound = int(math.floor((float(nowTime) - float(GEN_ARRIVE_TIME))/timeout))
     cursor.execute("SELECT count(*) FROM arrived_block WHERE round >= %d and round < %d and node <> '%s'" %(sround,currentRound,node))
+
     queries = cursor.fetchone()
     if(queries):
         receivedblocks = queries[0]
