@@ -23,11 +23,17 @@ chmod +x requirements.sh
 ```
 ./requirements.sh
 ```
+
 - **Tutorial for Windows**
-```
-requirements.bat
-```
-To install **SQLite3** on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html), and run the file ```sqldb3.exe```.
+1. open cmd.exe as admin an type: ```requirements.bat```
+
+2. To install **SQLite3** on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html), and run the file ```sqldb3.exe```.
+
+3. To install graphviz correctly, follow this steps:
+   - Download graphviz-2.38.msi from [Graphviz Website](https://graphviz.gitlab.io/_pages/Download/Download_windows.html) and install and run the file ```setup```.
+   - Download the 2.7 wheel file you need from this [website](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygraphviz)
+   - Navigate to the directory that you downloaded the wheel file to
+   - Run ```pip install pygraphviz-1.3.1-cp27-none-win_amd64.whl``` on terminal as admin.
 
 ### How to Use
 
