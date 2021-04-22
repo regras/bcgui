@@ -4,4 +4,3 @@ pip install plotly==4.14.3
 pip install dash==1.16.0
 pip install dash-bootstrap-components==0.12.0
 pip install pygraphviz
-apt-get install sqlite3
