@@ -27,7 +27,7 @@ Open the terminal as an administrator in the project directory and type in order
 1. open cmd.exe as admin on the directory of the project and type: ```requirements-windows.bat```
 
 2. To install **SQLite3** on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html)
-   - Create a new folder e.g., C:\sqlite
+   - Create a new folder e.g., ```C:\sqlite```
    - Extract the content of the file that you downloaded in the previous section to the C:\sqlite folder
    
 3. To install graphviz correctly, follow this steps:
