@@ -17,15 +17,13 @@ What you need to install to run the software and how to install it on Linux Ubun
 #### Requested Python Libraries: Networkx, Graphviz, Plotly, Dash and SQLite3
 
 - **Tutorial for linux Ubuntu**
-```
-chmod +x requirements.sh
-```
-```
-./requirements.sh
-```
+open terminal as admin on the directory of the project an type:
+
+1. ```chmod +x requirements.sh```
+2. ```./requirements.sh```
 
 - **Tutorial for Windows**
-1. open cmd.exe as admin an type: ```requirements.bat```
+open cmd.exe as admin on the directory of the project an type:
 
 2. To install **SQLite3** on Windows, you need to download the file from the SQLite [website](https://www.sqlite.org/download.html), and run the file ```sqldb3.exe```.
 
