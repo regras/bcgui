@@ -1,4 +1,8 @@
-.\__pycache__
-.\blockchainGraph-backup
-.\dataBase-backup
-.\dashLayout-backup
+
+__pycache__/blockchainGraph.cpython-39.pyc
+__pycache__/dashLayout.cpython-39.pyc
+__pycache__/dataBase.cpython-39.pyc
+__pycache__/globalParameters.cpython-39.pyc
+blockchainGraph-backup.py
+dashLayout-backup.py
+dataBase-backup.py
