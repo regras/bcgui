@@ -56,7 +56,7 @@ def Blockchain_Graph(rangeID):
 	for block in data[0]:
 		if block[0] == data[0][-1][0]: 
 			x_zoom_range[1] = float(G.nodes[block[1]]['pos'][0])+200
-			y_zoom_range[1] = float(G.nodes[block[1]]['pos'][1])+30
+			y_zoom_range[1] = float(G.nodes[block[1]]['pos'][1])+40
 		elif block[0] == (data[0][-1][0]-5): #o numero 10 indica que o zoom sera dado nos ultimos 10 blocos
 			x_zoom_range[0] = float(G.nodes[block[1]]['pos'][0])+200
 			y_zoom_range[0] = float(G.nodes[block[1]]['pos'][1])

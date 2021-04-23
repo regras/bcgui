@@ -74,7 +74,7 @@ def blockchain_list(rangeID):
 		i = i + 1
 
 	db.close()
-	return blocks_localChains, blocks_log_blocks #, reversed_blocks
+	return blocks_localChains, blocks_log_blocks, reversed_blocks
 
 
 #função para buscar algumas estatisticas da cadeia (blocos produzidos, revertidos, etc)
