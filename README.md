@@ -1,6 +1,6 @@
 # Blockchain Graphical User Interface
 
-Blockchain Graphical User Interface is a Python tool for monitoring the dynamic evolution of a single node blockchain on the network under the control of a consensus mechanism. For practical development, the application has been integrated with the [Probabilistic Proof-of-Stake (PPoS)](https://github.com/regras/bc_pos) protocol.
+Blockchain Graphical User Interface is a Python tool for monitoring the dynamic evolution of a single node blockchain on the network under the control of a consensus mechanism. For practical development, the application has been integrated with the [Probabilistic Proof-of-Stake (PPoS)](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution) protocol.
 
 ![](header.png)
 
@@ -16,7 +16,7 @@ What you need to install to run the software and how to install it on Linux Ubun
 
 #### Requested Python Libraries:
 
-- **Networkx**
+- **Networkx** (version >= 2.4)
 ```
 pip install networkx
 ```
@@ -40,9 +40,9 @@ apt-get install sqlite3
 
 ### How to Use
 
-Before running the application, you need the consensus mechanism [PPoS](https://github.com/regras/bc_pos/tree/pos_graphic_interface), into which the application has been integrated. This link represents the testbed to evaluate PPoS consensus blockchain.
+Before running the application, you need the consensus mechanism [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution), into which the application has been integrated. This link represents the testbed to evaluate PPoS consensus blockchain.
 
-After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/bc_pos/tree/pos_graphic_interface).
+After having access to the project, it is necessary to define the location of the blockchain database in the variable "databaseLocation" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. The blockchain data is a file named "blockchain.db" which is found in the "blocks" folder of the protocol [PPoS](https://github.com/regras/ppos_tb/tree/ppos_third_version_2_docker_execution).
 
 After defining the variable "databaseLocation", the application can be started and executed together with the consensus protocol.
 
@@ -52,26 +52,19 @@ To start the application, open the Linux terminal and type:
 python3 interface.py
 ```
 
-The dash server will be running and to access the application just access:
+The dash server will be running on ip host ```127.0.0.1``` and port ```8050```. To access the application just access:
 
 ```
 http://127.0.0.1:8050/
 ```
-Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. It is also possible to change the application's website by changing the ip host and port in the "GLOBAL PARAMETERS" section as shown below:
-```
-host='127.0.0.1'
-```
-```
-port=8050
-```
 
-In the current state of the tool, the blockchain will be updated every 10 seconds, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, just change the value of the variable "intervalfreq" in the "GLOBAL PARAMETERS" section in the code header of the "interface.py" file. 
+Upon opening the link, a preview of the blockchain will be shown allowing interactions with the mouse cursor. 
+It is also possible to change the application's website by changing the ip host as shown below:
 ```
-intervalfreq = 1000
+python3 interface.py <ip host>
 ```
-**Obs:** The value of this variable must be in milliseconds (ms).
+In the current state of the tool, the blockchain will be updated every 10 seconds as default, that is, if there is any creation or deletion of blocks from the blockchain the application will update the blockchain visualization every 10 seconds. If you want to change the time that tool updates, it is possible to change directly in the web interface.
 
----
 ## Deployment
 
 This section presents some additional notes on how to deploy this to another active system. 
@@ -82,7 +75,7 @@ To implement the application in a consensus mechanism, it is necessary to unders
 
 * **"GLOBAL PARAMETERS" section**
 
-This section has parameters corresponding to the colors of each page element, the application update time interval and the location of the blockchain database. It is important to define the location of the blockchain database in the variable "databaseLocation" in this section so that the application can extract the necessary data.
+This section has parameters corresponding to the colors of each page element and the location of the blockchain database. It is important to define the location of the blockchain database in the variable "databaseLocation" in this section so that the application can extract the necessary data.
 
 * **"DATABASE" section**
 
