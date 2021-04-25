@@ -33,6 +33,10 @@ colors = {'background_graph':'#f8f8f8',
 #localização do banco de dados da blockchain
 databaseLocation = '../blocks/blockchain.db'
 
+host='127.0.0.1'
+
+port=8050
+
 # DATABASE ###################################################################################################################
 
 #Acessa o banco de dados
@@ -684,4 +688,5 @@ if __name__ == '__main__':
 		app.run_server(debug=True, use_reloader=True, host=sys.argv[1],port=8050)
 	else:
 		app.run_server(debug=True, use_reloader=True, host='127.0.0.1',port=8050)
+    
 	#debug=True significa que o Dash atualizará automaticamente o navegador quando você fizer uma alteração no código.
