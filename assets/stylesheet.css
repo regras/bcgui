@@ -86,6 +86,19 @@ body {
     color:rgba(255, 255, 255, 0.384)
 }
 
+.toggle_switch_title {
+    width:20%;
+    float:right;
+}
+
+#toggle_switch {
+    position: absolute;
+    width: 60px;
+    float: right;
+    right: 80px;
+
+}
+
 .range_blocks_input {
     position: absolute;
     width: 60px;
@@ -97,6 +110,7 @@ body {
     width:19%;
     float:right;
 }
+
 
 .statistics_title {
     width:19%;

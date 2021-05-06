@@ -9,13 +9,11 @@ from dataBase import blockchain_list, explorer
 
 # NETWORKX AND PLOTLY ########################################################################################################
 
-def Blockchain_Graph(rangeID):
-
-	#gera a lista com os blocos
-	#aux = blockchain_list(rangeID)
-	#data = [aux[0],aux[2],aux[1]]
+def Blockchain_Graph(rangeID, debugMode = True):
 
 	data = blockchain_list(rangeID)
+	if debugMode == False:
+		data = [data[0]]
 
 	G = nx.DiGraph() #gera um gráfico vazio
 
@@ -60,6 +58,8 @@ def Blockchain_Graph(rangeID):
 		elif block[0] == (data[0][-1][0]-5): #o numero 10 indica que o zoom sera dado nos ultimos 10 blocos
 			x_zoom_range[0] = float(G.nodes[block[1]]['pos'][0])+200
 			y_zoom_range[0] = float(G.nodes[block[1]]['pos'][1])
+
+	if debugMode == False: y_zoom_range = None
 
 	#renderiza o gráfico
 	Graph = go.Figure(

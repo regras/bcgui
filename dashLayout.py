@@ -3,6 +3,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input
 import dash_bootstrap_components as dbc
+import dash_daq as daq
 
 from globalParameters import colors
 from dataBase import explorer
@@ -69,6 +70,22 @@ def serve_layout():
 					className = "app_Graph"		
 					),
 
+				html.Div(
+					children = [
+							html.B("Debug Mode: ", className = "toggle_switch_title"),
+						    daq.BooleanSwitch(
+        					id='toggle_switch',
+							#label = "Debug Mode",
+							#labelPosition = "top",
+        					on=False
+    						)
+					],
+					className = "checkbox_div",
+				),
+
+				html.Br(),
+				html.Br(),
+
 				#Radio Item (ID)
 				html.Div(
 					#style=dict(),
@@ -129,7 +146,7 @@ def serve_layout():
 				#Range blocks
 				html.Div(
 					children = [
-							html.B("Range blocks info: ", className = "range_blocks_title"),
+							html.B("Last n blocks info: ", className = "range_blocks_title"),
 							    dcc.Input( 
 								#placeholder = "type an integer",
         							id='num_explorer',
@@ -179,10 +196,10 @@ app.layout = serve_layout
 #atualização do gráfico
 @app.callback(
 	Output('my-graph','figure'),
-	[Input('interval_component','n_intervals'), Input('id_range','value')]
+	[Input('interval_component','n_intervals'), Input('id_range','value'), Input('toggle_switch', 'on')]
 )
-def update_my_graph(interval_component, id_range):
-	return Blockchain_Graph(id_range)
+def update_my_graph(interval_component, id_range, toggle_switch):
+	return Blockchain_Graph(id_range, toggle_switch)
 
 #radioitem id range
 @app.callback(
