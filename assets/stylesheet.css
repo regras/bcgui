@@ -143,7 +143,7 @@ body {
     position:absolute;
 }
 .inputs_number_range_ID_max {
-    display: inline-block;
+    display: inline;
     position:relative;
     float: right;
     right: 20px;
