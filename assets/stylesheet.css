@@ -96,7 +96,6 @@ body {
     width: 60px;
     float: right;
     right: 80px;
-
 }
 
 .range_blocks_input {
@@ -138,3 +137,29 @@ body {
     font-variant: small-caps;
     text-transform: none;
 }
+
+.inputs_number_range_ID_min {
+    display: inline-block;
+    position:absolute;
+}
+.inputs_number_range_ID_max {
+    display: inline-block;
+    position:relative;
+    float: right;
+    right: 20px;
+}
+
+#rangeIDmin{
+    width: 60px;
+    float: right;
+    right: 20px;
+}
+
+#rangeIDmax{
+    width: 60px;
+    float: right;
+    right: 20px;
+}
+
+
+

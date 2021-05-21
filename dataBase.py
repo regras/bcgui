@@ -14,10 +14,14 @@ from globalParameters import databaseLocation, timeout, GEN_ARRIVE_TIME, colors
 def blockchain_list(rangeID):	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
+    
+	if type(rangeID) == int:
+		rangeID = ["MAX(id) - {}".format(rangeID), "MAX(id)"]
+
 
     #cadeia principal
 	#Cria uma lista - cada termo é um bloco da localChains- cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable, subuser FROM localChains WHERE id > (SELECT MAX(id) - {} FROM localchains)'.format(rangeID))
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, stable, subuser FROM localChains WHERE id BETWEEN (SELECT {} FROM localchains) AND (SELECT {} FROM localchains)'.format(rangeID[0],rangeID[1]))
 	a = cursor.fetchall()
 	blocks_localChains = []
 	i=0
@@ -38,7 +42,7 @@ def blockchain_list(rangeID):
 		i = i + 1
 
 	#Cria uma lista - cada termo é um bloco da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser FROM log_block t1 WHERE t1.id > (SELECT MAX(ID) - {} FROM log_block) and EXISTS (SELECT * FROM log_block t2 WHERE t2.round <= t1.round and t1.id == t2.id and t2.arrive_time < t1.arrive_time and t2.proof_hash < t1.proof_hash) and NOT EXISTS (SELECT * FROM localChains t3 WHERE t3.hash == t1.hash)'.format(rangeID))
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser FROM log_block t1 WHERE t1.id BETWEEN (SELECT {} FROM log_block) AND (SELECT {} FROM log_block) and EXISTS (SELECT * FROM log_block t2 WHERE t2.round <= t1.round and t1.id == t2.id and t2.arrive_time < t1.arrive_time and t2.proof_hash < t1.proof_hash) and NOT EXISTS (SELECT * FROM localChains t3 WHERE t3.hash == t1.hash)'.format(rangeID[0],rangeID[1]))
 	b = cursor.fetchall()
 	blocks_log_blocks = []
 	i=0
@@ -56,7 +60,7 @@ def blockchain_list(rangeID):
 		i = i + 1
     
 	#Cria uma lista - cada termo é um bloco revertido da log_block - cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash, subuser
-	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser FROM log_block t1 WHERE t1.id > (SELECT MAX(ID) - {} FROM log_block) and NOT EXISTS (SELECT * FROM log_block t2 WHERE t2.round <= t1.round and t1.id == t2.id and t2.arrive_time < t1.arrive_time and t2.proof_hash < t1.proof_hash) and NOT EXISTS (SELECT * FROM localChains t3 WHERE t3.hash == t1.hash)'.format(rangeID))
+	cursor.execute('SELECT id, hash, prev_hash, arrive_time, round, proof_hash, subuser FROM log_block t1 WHERE t1.id BETWEEN (SELECT {} FROM log_block) AND (SELECT {} FROM log_block) and NOT EXISTS (SELECT * FROM log_block t2 WHERE t2.round <= t1.round and t1.id == t2.id and t2.arrive_time < t1.arrive_time and t2.proof_hash < t1.proof_hash) and NOT EXISTS (SELECT * FROM localChains t3 WHERE t3.hash == t1.hash)'.format(rangeID[0],rangeID[1]))
 	c = cursor.fetchall()
 	reversed_blocks = []
 	i=0

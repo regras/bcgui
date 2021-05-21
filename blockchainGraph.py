@@ -25,7 +25,7 @@ def Blockchain_Graph(rangeID, debugMode = True):
 	num_ver = 0 #variavel que mostra a a qntdd de iteração do primeiro for
 	for blocks in data: 
 		for block in blocks:
-			if block[2] != "" and ((block[2] in G.nodes) or num_ver == 0):
+			if ((block[2] in G.nodes) or num_ver == 0): #block[2] != "" and 
 				G.add_node(block[1])
 				G.nodes[block[1]]['cor'] = block[8] #armazena a cor, e os textos dentro do proprio node
 				G.nodes[block[1]]['text_node'] = block[0]

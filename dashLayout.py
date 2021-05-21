@@ -92,11 +92,16 @@ def serve_layout():
 					#style=dict(),
 						
 					children = [
-							'ID range:',
+							html.B('ID range:'),
 
 							dcc.RadioItems(
                 						id='id_range',
-               							options=[{'label': i, 'value': i} for i in [10, 20, 50, 100]],
+               							options=[{'label': 10, 'value': 10},
+										   		{'label': 20, 'value': 20},
+												{'label': 50, 'value': 50},
+												{'label': 100, 'value': 100},
+												{'label': "Custom", 'value': -1}
+										    	],
                 						value=10,
                							labelStyle={'display': 'inline-block'}
             							)
@@ -104,12 +109,39 @@ def serve_layout():
 					className = "radio_ID"
 					),
 
-				html.Br(style = {'height': '1px'}),
+				html.Div([
+					html.Div([html.B("Min: ", className = 'inputs_number_range_ID_min_title'),
+							dcc.Input(
+							id='rangeIDmin',
+							type='number',
+							value="MAX(id) - 10",
+							disabled = True,
+							required = True,
+							)
+						],	
+						className = "inputs_number_range_ID_min"
+						),
 
+					html.Div([html.B("Max: ", className = 'inputs_number_range_ID_max_title'),
+							dcc.Input(
+							id='rangeIDmax',
+							type='number',
+							value="MAX(id)",
+							required = True,
+							disabled = True
+							)
+						],
+						className = "inputs_number_range_ID_max"
+						)
+				]),
+
+				html.Br(),
+				html.Br(),
+			
 				#Rádio Item (Update)
 				html.Div(
 					children = [	
-							'Update Period:',
+							html.B('Update Period:'),
 							dcc.RadioItems(
                 						id='update_period',
                							options=[
@@ -197,12 +229,21 @@ app.layout = serve_layout
 #atualização do gráfico
 @app.callback(
 	Output('my-graph','figure'),
-	[Input('interval_component','n_intervals'), Input('id_range','value'), Input('toggle_switch', 'on')]
+	[Input('interval_component','n_intervals'),
+	Input('id_range','value'),
+	Input('toggle_switch', 'on'),
+	Input('rangeIDmin','value'),
+	Input('rangeIDmax','value')
+	]
 )
-def update_my_graph(interval_component, id_range, toggle_switch):
-	return Blockchain_Graph(id_range, toggle_switch)
+def update_my_graph(interval_component, id_range, toggle_switch, rangeIDmin,rangeIDmax):
+	range = id_range
+	if id_range == -1:
+		range = [rangeIDmin, rangeIDmax]
+	return Blockchain_Graph(range, toggle_switch)
 
-#radioitem id range
+
+#radioitem id_range
 @app.callback(
 	Output('interval_component','interval'),
 	[Input('update_period','value')]
@@ -222,6 +263,18 @@ def disabled_update_refresh(btn_1):
 		return -1
 	else:
 		return 0
+
+#desabilitar/habilitar custom
+@app.callback(
+	[Output('rangeIDmin','disabled'),
+	Output('rangeIDmax','disabled')],
+	[Input('id_range','value')]
+)
+def disable_custom_rangeID(id_range):
+	if id_range == -1: 
+		return False, False
+	else:
+		return True, True
 
 
 #mudar o texto do botão
