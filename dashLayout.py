@@ -75,6 +75,7 @@ def serve_layout():
 							html.B("Debug Mode: ", className = "toggle_switch_title"),
 						    daq.BooleanSwitch(
         					id='toggle_switch',
+							color="#343a40",
 							#label = "Debug Mode",
 							#labelPosition = "top",
         					on=False
@@ -143,6 +144,7 @@ def serve_layout():
 					
 				html.Br(),
 				html.Br(),
+				html.Br(),
 				#Range blocks
 				html.Div(
 					children = [
@@ -158,9 +160,8 @@ def serve_layout():
 					className = "range_blocks"	
 					),
 					
-				html.B(children= [html.Br(),"Statistics:"], className = "statistics_title"),
-				
-				html.Br(),
+				#html.B(children= [html.Br(),"Statistics:"], className = "statistics_title"),
+
 				#tabela explorer
 				html.Div(						
 					children = [	html.Br(),

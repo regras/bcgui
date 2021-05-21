@@ -103,7 +103,7 @@ def Blockchain_Graph(rangeID, debugMode = True):
 				#name="legenda",
 				showlegend=False, 
 				line=dict(	
-						width=3, 
+						width=1.5, 
 						color=colors['edge'],
 						dash = G.edges[edge]['dash_type'], #para edge pontilhado usar "dot" e solido "solid"
 					), 
