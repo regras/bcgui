@@ -3,7 +3,7 @@ from dashLayout import app
 
 #execute: python3 bcgui.py <ip host>
 #OBS: para evitar o erro 'lazy loading' execute esse arquivo com o seguinte código no terminal: waitress-serve interface:app.server
-
+#
 if __name__ == '__main__':
 	if(len(sys.argv) == 2):
 		app.run_server(debug=True, use_reloader=True, host=sys.argv[1],port=8050)
