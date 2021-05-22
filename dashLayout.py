@@ -58,7 +58,7 @@ def serve_layout():
 					children = [	
 							dcc.Graph(	
 								id='my-graph',
-								figure=Blockchain_Graph(10),
+								figure=Blockchain_Graph(["MAX(id) - {}".format(10), "MAX(id)"]),
 								config=tools
 							),
 							dcc.Interval( #atualizar o gráfico a cada 10 segundos
@@ -116,7 +116,7 @@ def serve_layout():
 							type='number',
 							value="MAX(id) - 10",
 							disabled = True,
-							required = True,
+							#required = True,
 							)
 						],	
 						className = "inputs_number_range_ID_min"
@@ -127,13 +127,15 @@ def serve_layout():
 							id='rangeIDmax',
 							type='number',
 							value="MAX(id)",
-							required = True,
+							#required = True,
 							disabled = True
 							)
 						],
 						className = "inputs_number_range_ID_max"
 						)
-				]),
+				],
+				style = {'display': 'inline'},
+				id = "rangesDIV"),
 
 				html.Br(),
 				html.Br(),
@@ -176,21 +178,6 @@ def serve_layout():
 					
 				html.Br(),
 				html.Br(),
-				html.Br(),
-				#Range blocks
-				html.Div(
-					children = [
-							html.B("Last n blocks info: ", className = "range_blocks_title"),
-							    dcc.Input( 
-								#placeholder = "type an integer",
-        							id='num_explorer',
-        							type='number',
-        							value=10,
-									className = "range_blocks_input",
-    								)
-						],
-					className = "range_blocks"	
-					),
 					
 				#html.B(children= [html.Br(),"Statistics:"], className = "statistics_title"),
 
@@ -238,8 +225,13 @@ app.layout = serve_layout
 )
 def update_my_graph(interval_component, id_range, toggle_switch, rangeIDmin,rangeIDmax):
 	range = id_range
-	if id_range == -1:
+	if id_range == -1 and (rangeIDmin != None and rangeIDmax != None):
 		range = [rangeIDmin, rangeIDmax]
+
+	elif id_range == -1 and (rangeIDmin == None or rangeIDmax == None):
+		range = ["MAX(id) - {}".format(10), "MAX(id)"]
+	else:
+		range = ["MAX(id) - {}".format(id_range), "MAX(id)"]
 	return Blockchain_Graph(range, toggle_switch)
 
 
@@ -267,14 +259,15 @@ def disabled_update_refresh(btn_1):
 #desabilitar/habilitar custom
 @app.callback(
 	[Output('rangeIDmin','disabled'),
-	Output('rangeIDmax','disabled')],
+	Output('rangeIDmax','disabled'),
+	Output('rangesDIV','style')],
 	[Input('id_range','value')]
 )
 def disable_custom_rangeID(id_range):
 	if id_range == -1: 
-		return False, False
+		return False, False, None
 	else:
-		return True, True
+		return True, True, {'display': 'none'}
 
 
 #mudar o texto do botão
@@ -300,7 +293,18 @@ def update_period_refresh(interval_component):
 	Output('num_numblockstable', 'children'),
 	Output('num_lateblocks', 'children'),
 	Output('num_numblocks', 'children')],
-	[Input('interval_component','n_intervals'),Input('num_explorer','value')]
+	[Input('interval_component','n_intervals'),
+	Input('id_range','value'),
+	Input('rangeIDmin','value'),
+	Input('rangeIDmax','value')]
 )
-def update_explorer_infos(interval_component,num_explorer):
-	return explorer(num_explorer)
+def update_explorer_infos(interval_component,id_range,rangeIDmin,rangeIDmax):
+	range = id_range
+	if id_range == -1 and (rangeIDmin != None and rangeIDmax != None):
+		range = [rangeIDmin, rangeIDmax]
+
+	elif id_range == -1 and (rangeIDmin == None or rangeIDmax == None):
+		range = ["MAX(id) - {}".format(10), "MAX(id)"]
+	else:
+		range = ["MAX(id) - {}".format(id_range), "MAX(id)"]
+	return explorer(range)

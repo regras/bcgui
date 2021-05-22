@@ -14,10 +14,6 @@ from globalParameters import databaseLocation, timeout, GEN_ARRIVE_TIME, colors
 def blockchain_list(rangeID):	
 	db = sqlite3.connect(databaseLocation)
 	cursor = db.cursor()
-    
-	if type(rangeID) == int:
-		rangeID = ["MAX(id) - {}".format(rangeID), "MAX(id)"]
-
 
     #cadeia principal
 	#Cria uma lista - cada termo é um bloco da localChains- cada bloco possui na ordem: id, hash, prev_hash, arrive_time, round, proof_hash
@@ -82,7 +78,8 @@ def blockchain_list(rangeID):
 
 
 #função para buscar algumas estatisticas da cadeia (blocos produzidos, revertidos, etc)
-def explorer(num,node='-1'):
+def explorer(range):
+    node='-1'
     receivedblocks = 0
     numround = 0
     callsync = 0
@@ -97,7 +94,7 @@ def explorer(num,node='-1'):
     db = sqlite3.connect(databaseLocation)
     cursor = db.cursor()
     #calculating performance
-    cursor.execute("SELECT * FROM localChains WHERE id > ((SELECT MAX(id) FROM localChains WHERE stable = 1) - %d) and stable = 1 and round <> 0" %int(num))
+    cursor.execute("SELECT * FROM localChains WHERE id BETWEEN (SELECT {} FROM localChains WHERE stable = 1) AND (SELECT {} FROM localChains WHERE stable = 1) and stable = 1 and round <> 0".format(range[0],range[1]))
     queries = cursor.fetchall()
     sround = queries[0][2]
     if(queries):

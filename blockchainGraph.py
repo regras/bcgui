@@ -128,10 +128,10 @@ def Blockchain_Graph(rangeID, debugMode = True):
 				hoverinfo="text", # mostrar popup, também da para mostrar as coordenadas 'x', 'y', 'z' 
 				#name="legenda",
 				showlegend = False, 
-				marker=dict(	size=25, 
+				marker=dict(
+						size=17,
 						color = G.nodes[node]['cor'], 
 						symbol='circle', #circle/square
-						#cmin=0, # stable variable
 					),
 				line=dict(	width=40
 					),
