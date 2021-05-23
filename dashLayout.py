@@ -134,7 +134,7 @@ def serve_layout():
 						className = "inputs_number_range_ID_max"
 						)
 				],
-				style = {'display': 'inline'},
+				style = {'display': 'none'},
 				id = "rangesDIV"),
 
 				html.Br(),
