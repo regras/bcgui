@@ -226,10 +226,14 @@ app.layout = serve_layout
 def update_my_graph(interval_component, id_range, toggle_switch, rangeIDmin,rangeIDmax):
 	range = id_range
 	if id_range == -1 and (rangeIDmin != None and rangeIDmax != None):
-		range = [rangeIDmin, rangeIDmax]
+		if rangeIDmin < rangeIDmax: 
+			range = [rangeIDmin, rangeIDmax]
+		else:
+			range = [-1, -1]
 
 	elif id_range == -1 and (rangeIDmin == None or rangeIDmax == None):
-		range = ["MAX(id) - {}".format(10), "MAX(id)"]
+		#range = ["MAX(id) - {}".format(10), "MAX(id)"]
+		range = [-1, -1]
 	else:
 		range = ["MAX(id) - {}".format(id_range), "MAX(id)"]
 	return Blockchain_Graph(range, toggle_switch)
@@ -301,10 +305,14 @@ def update_period_refresh(interval_component):
 def update_explorer_infos(interval_component,id_range,rangeIDmin,rangeIDmax):
 	range = id_range
 	if id_range == -1 and (rangeIDmin != None and rangeIDmax != None):
-		range = [rangeIDmin, rangeIDmax]
+		if rangeIDmin < rangeIDmax: 
+			range = [rangeIDmin, rangeIDmax]
+		else:
+			range = [-1, -1]
 
 	elif id_range == -1 and (rangeIDmin == None or rangeIDmax == None):
-		range = ["MAX(id) - {}".format(10), "MAX(id)"]
+		#range = ["MAX(id) - {}".format(10), "MAX(id)"]
+		range = [-1, -1]
 	else:
 		range = ["MAX(id) - {}".format(id_range), "MAX(id)"]
 	return explorer(range)

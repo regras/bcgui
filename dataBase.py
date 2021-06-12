@@ -70,7 +70,7 @@ def blockchain_list(rangeID):
 		reversed_blocks[i].append(z[5]) #proof_hash
 		reversed_blocks[i].append(z[6]) #subuser
 		reversed_blocks[i].append(datetime.datetime.utcfromtimestamp(float(z[3]))) #arrive_time (local datetime)
-		reversed_blocks[i].append(colors['node-rev'])
+		reversed_blocks[i].append(colors['node-selected-once'])
 		i = i + 1
 
 	db.close()

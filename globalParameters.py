@@ -10,10 +10,12 @@ colors = {'background_graph':'#f8f8f8',
 	'node-stable':'#00c227',
 	'node-unstable':'#00bfff',
 	'node-log':'#ff8aab',
-	'node-rev':'#add8e6',
+	'node-selected-once':'#add8e6',
 	'node-text':'#000000',
 	'edge':'#000000',
-	'background_legend':'#e8e8e8'
+	'background_legend':'#e8e8e8',
+	'edge_text_color':'#110080',
+	'node-rev':'#c217c2'
 }
 
 #localização do banco de dados da blockchain
