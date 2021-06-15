@@ -157,7 +157,7 @@ def Blockchain_Graph(rangeID, debugMode = True):
 				#legendgroup=1,
 				showlegend = False, 
 				marker=dict(
-						size=17,
+						size=15,
 						color = G.nodes[node]['cor'], 
 						symbol='circle', #circle/square
 					),
@@ -331,12 +331,12 @@ def Blockchain_Graph(rangeID, debugMode = True):
 	return Graph
 
 #configuração das ferramentas de analise do gráfico
-tools =  {'displayModeBar':True,'scrollZoom':True, 'displaylogo':False}
+tools =  {'displayModeBar':True,'scrollZoom':True, 'displaylogo':False, 'modeBarButtonsToRemove':['lasso2d', 'autoScale2d', 'select2d','toggleSpikelines', 'hoverCompareCartesian', 'hoverClosestCartesian'], 'modeBarButtonsToAdd':['drawopenpath', 'eraseshape']}
 #todas as configs: https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js#L6
 
 """
 EXEMPLO P/ REMOVER OU ADD FERRAMENTAS DE ANALISE DO GRÁFICOS (BOTOES)
 'modeBarButtonsToAdd':['drawline','drawopenpath','drawclosedpath', 'drawcircle' , 'drawrect' , 'eraseshape']
-#'modeBarButtonsToRemove':['drawline']
+#'modeBarButtonsToRemove':['resetScale2d']
 #botoes existentes: https://github.com/plotly/plotly.js/blob/master/src/components/modebar/buttons.js
 """
