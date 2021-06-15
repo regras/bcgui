@@ -112,7 +112,8 @@ def serve_layout():
 							dcc.Input(
 							id='rangeIDmin',
 							type='number',
-							value="MAX(id) - 10",
+							#value="MAX(id) - 10",
+							#value=-1,
 							disabled = True,
 							#required = True,
 							)
@@ -124,7 +125,8 @@ def serve_layout():
 							dcc.Input(
 							id='rangeIDmax',
 							type='number',
-							value="MAX(id)",
+							#value="MAX(id)",
+							#value=-1,
 							#required = True,
 							disabled = True
 							)
@@ -224,7 +226,9 @@ app.layout = serve_layout
 def update_my_graph(interval_component, id_range, toggle_switch, rangeIDmin,rangeIDmax):
 	range = id_range
 	if id_range == -1 and (rangeIDmin != None and rangeIDmax != None):
-		if rangeIDmin < rangeIDmax: 
+		if int(rangeIDmin) < int(rangeIDmax): 
+			range = [rangeIDmin, rangeIDmax]
+		elif int(rangeIDmin) == int(rangeIDmax):
 			range = [rangeIDmin, rangeIDmax]
 		else:
 			range = [-1, -1]
@@ -303,7 +307,9 @@ def update_period_refresh(interval_component):
 def update_explorer_infos(interval_component,id_range,rangeIDmin,rangeIDmax):
 	range = id_range
 	if id_range == -1 and (rangeIDmin != None and rangeIDmax != None):
-		if rangeIDmin < rangeIDmax: 
+		if int(rangeIDmin) < int(rangeIDmax): 
+			range = [rangeIDmin, rangeIDmax]
+		elif int(rangeIDmin) == int(rangeIDmax):
 			range = [rangeIDmin, rangeIDmax]
 		else:
 			range = [-1, -1]

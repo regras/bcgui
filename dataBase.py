@@ -94,23 +94,26 @@ def explorer(range):
     db = sqlite3.connect(databaseLocation)
     cursor = db.cursor()
     #calculating performance
+    cursor.execute("SELECT * FROM localChains WHERE stable = 1 and round <> 0 and id = 1")
+    queries = cursor.fetchall()
+    sround = queries[0][2] #round do primeiro bloco estavel produzido
+
+
     cursor.execute("SELECT * FROM localChains WHERE id BETWEEN (SELECT {} FROM localChains WHERE stable = 1) AND (SELECT {} FROM localChains WHERE stable = 1) and stable = 1 and round <> 0".format(range[0],range[1]))
     queries = cursor.fetchall()
-    sround = queries[0][2]
     if(queries):
-        numblockstable = len(queries)
+        numblockstable = len(queries) #obtendo o número de blocos estáveis
         for query in queries:
             avgconf = avgconf + float(1) / float(query[14] - query[2])
         avgconf = avgconf / len(queries)
         avgconf = 1 / avgconf
     
     #calculating performance
-    cursor.execute("SELECT * FROM reversion WHERE sround > %d" %sround)
+    cursor.execute("SELECT * FROM reversion WHERE id BETWEEN (SELECT {} FROM reversion) AND (SELECT {} FROM reversion) and sround > {}".format(range[0],range[1],sround))
     queries = cursor.fetchall()
     if(queries):
         callsync = len(queries)
         for query in queries:
-            #sync[query[0],query[1],query[2]] = []
             cursor.execute("SELECT * FROM block_reversion WHERE idreversion = %d" %int(query[0]))
             revqueries = cursor.fetchall()
             if(revqueries):
@@ -122,27 +125,27 @@ def explorer(range):
     #get arrived blocks
     nowTime = time.mktime(datetime.datetime.now().timetuple())
     currentRound = int(math.floor((float(nowTime) - float(GEN_ARRIVE_TIME))/timeout))
-    cursor.execute("SELECT count(*) FROM arrived_block WHERE round >= %d and round < %d and node <> '%s'" %(sround,currentRound,node))
+    cursor.execute("SELECT count(*) FROM arrived_block WHERE id BETWEEN (SELECT '%s' FROM arrived_block) AND (SELECT '%s' FROM arrived_block) and round >= %d and round < %d and node <> '%s'" %(range[0],range[1],sround,currentRound,node))
 
     queries = cursor.fetchone()
     if(queries):
         receivedblocks = queries[0]
 
     #get produced blocks
-    cursor.execute("SELECT count(*) FROM arrived_block WHERE round >= %d and round < %d" %(sround,currentRound))
+    cursor.execute("SELECT count(*) FROM arrived_block WHERE id BETWEEN (SELECT '%s' FROM arrived_block) AND (SELECT '%s' FROM arrived_block) and round >= %d and round < %d" %(range[0],range[1],sround,currentRound))
     queries = cursor.fetchone()
     if(queries):
         numblocks = queries[0]
         
     
     #get rounds to produce all blocks
-    cursor.execute("SELECT (max(round) - min(round)) FROM arrived_block WHERE round >= %d" %sround)
+    cursor.execute("SELECT (max(round) - min(round)) FROM arrived_block WHERE id BETWEEN (SELECT {} FROM arrived_block) AND (SELECT {} FROM arrived_block) and round >= {}" .format(range[0],range[1],sround))
     queries = cursor.fetchone()
     if(queries):
         numround = queries[0]
             
     #late block number
-    cursor.execute("SELECT COUNT(*) FROM arrived_block WHERE status = 2")
+    cursor.execute("SELECT COUNT(*) FROM arrived_block WHERE id BETWEEN (SELECT {} FROM arrived_block) AND (SELECT {} FROM arrived_block) and status = 2".format(range[0],range[1]))
     queries = cursor.fetchone()
     if(queries):
         lateblocks = queries[0]
