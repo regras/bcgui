@@ -169,6 +169,7 @@ def Blockchain_Graph(rangeID, debugMode = True):
 				)
 				)
 
+	#definindo o layout do pop-up (hovertext)
 	Graph.update_layout(
 				#layout do pop-up
 				hoverlabel=dict(
@@ -188,13 +189,11 @@ def Blockchain_Graph(rangeID, debugMode = True):
 			name='Confirmed',
 			showlegend=True,
 			legendgroup="1",
-			#mode='markers+text',
 			mode='markers',
 			textposition="middle center",
 			marker=dict(size=17, color=colors['node-stable']), 
 		)
 	)
-
 	Graph.add_trace(
 		go.Scatter(
 			x=[None],
@@ -202,52 +201,65 @@ def Blockchain_Graph(rangeID, debugMode = True):
 			name='Not Confirmed',
 			showlegend=True,
 			legendgroup="2",
-			#mode='markers+text',
 			mode='markers',
 			textposition="middle center",
 			marker=dict(size=17, color=colors['node-unstable']), 
 		)
 	)
-
-	Graph.add_trace(
-		go.Scatter(
-			x=[None],
-			y=[None],
-			name='Selected Once',
-			showlegend=True,
-			legendgroup="3",
-			#mode='markers+text',
-			mode='markers',
-			textposition="middle center",
-			marker=dict(size=17, color=colors['node-selected-once']), 
+	if debugMode == True:
+		Graph.add_trace(
+			go.Scatter(
+				x=[None],
+				y=[None],
+				name='Selected Once',
+				showlegend=True,
+				legendgroup="3",
+				mode='markers',
+				textposition="middle center",
+				marker=dict(size=17, color=colors['node-selected-once']), 
+			)
 		)
-	)
-	Graph.add_trace(
-		go.Scatter(
-			x=[None],
-			y=[None],
-			name='Not Selected',
-			showlegend=True,
-			legendgroup="4",
-			#mode='markers+text',
-			mode='markers',
-			textposition="middle center",
-			marker=dict(size=17, color=colors['node-log']), 
+		Graph.add_trace(
+			go.Scatter(
+				x=[None],
+				y=[None],
+				name='Not Selected',
+				showlegend=True,
+				legendgroup="4",
+				mode='markers',
+				textposition="middle center",
+				marker=dict(size=17, color=colors['node-log']), 
+			)
 		)
-	)
-	Graph.add_trace(
-		go.Scatter(
-			x=[None],
-			y=[None],
-			name='Reversed',
-			showlegend=True,
-			legendgroup="5",
-			#mode='markers+text',
-			mode='markers',
-			textposition="middle center",
-			marker=dict(size=17, color=colors['node-rev']), 
+		Graph.add_trace(
+			go.Scatter(
+				x=[None],
+				y=[None],
+				name='Reversed',
+				showlegend=True,
+				legendgroup="5",
+				mode='markers',
+				textposition="middle center",
+				marker=dict(size=17, color=colors['node-rev']), 
+			)
 		)
-	)
+		Graph.add_trace(
+			go.Scatter(
+				x=[None],
+				y=[None],
+				name='Secondary Views',
+				showlegend=True,
+				legendgroup="7",
+				mode='lines', 
+				line_shape='spline', 
+				line=dict(	
+					width=2,
+					color=colors['edge'],
+					dash = 'dot', #para edge pontilhado usar "dot" e solido "solid"
+				)
+			)
+		)
+	
 	Graph.add_trace(
 		go.Scatter(
 			x=[None],
@@ -261,59 +273,42 @@ def Blockchain_Graph(rangeID, debugMode = True):
 				width=2,
 				color=colors['edge'],
 				dash = 'solid', #para edge pontilhado usar "dot" e solido "solid"
-				)
+			)
 		)
 	)
-
 	Graph.add_trace(
 		go.Scatter(
 			x=[None],
 			y=[None],
-			name='Secondary Views',
+			text=[None],
+			name="ID's",
 			showlegend=True,
-			legendgroup="7",
-			mode='lines', 
-			line_shape='spline', 
-			line=dict(	
-				width=2,
-				color=colors['edge'],
-				dash = 'dot', #para edge pontilhado usar "dot" e solido "solid"
-				)
-		)
-	)
-	Graph.add_trace(
-		go.Scatter(
-				x=[None],
-				y=[None],
-				text=[None],
-				name="ID's",
-				showlegend=True,
-				legendgroup="8",
-				#legendgroup="group",
-				mode='markers+text',
-				hoverinfo='none',
-				textposition='middle center',
-				marker=dict(opacity=0),
-				textfont=dict(size=10)
+			legendgroup="8",
+			mode='markers+text',
+			hoverinfo='none',
+			textposition='middle center',
+			marker=dict(opacity=0),
+			textfont=dict(size=10)
 		)
 	)	
 	Graph.add_trace(
 		go.Scatter(
-				x=[None],
-				y=[None],
-				text=[None],
-				name="Rounds Gap",
-				showlegend=True,
-				legendgroup="9",
-				mode='markers+text',
-				hoverinfo='none',
-				textposition='middle center',
-				marker=dict(opacity=0),
-				textfont=dict(color=colors['edge_text_color'], size=10)
+			x=[None],
+			y=[None],
+			text=[None],
+			name="Rounds Gap",
+			showlegend=True,
+			legendgroup="9",
+			mode='markers+text',
+			hoverinfo='none',
+			textposition='middle center',
+			marker=dict(opacity=0),
+			textfont=dict(color=colors['edge_text_color'], size=10)
 		)
 	)		
 	
-	Graph.update_layout(	#layout da legenda
+	#definindo o layout da legenda
+	Graph.update_layout(
     				legend=dict(
        					x=0,
         				y=1,

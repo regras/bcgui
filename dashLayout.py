@@ -11,8 +11,6 @@ from blockchainGraph import Blockchain_Graph, tools
 
 # DASH #######################################################################################################################
 
-
-
 #importa o template css e passa para o Dash
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__)#, external_stylesheets=external_stylesheets)
@@ -260,7 +258,7 @@ def disabled_update_refresh(btn_1):
 	else:
 		return 0
 
-#desabilitar/habilitar custom
+#desabilitar/habilitar custom range
 @app.callback(
 	[Output('rangeIDmin','disabled'),
 	Output('rangeIDmax','disabled'),
@@ -285,7 +283,7 @@ def update_period_refresh(interval_component):
 	else:
 		return "Start Updates"
 
-#atualizar as informações do explorer
+#atualizar as informações do explorer (estatistica)
 @app.callback(
 	[Output('num_avgconf', 'children'),
 	Output('num_y', 'children'),
