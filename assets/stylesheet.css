@@ -87,15 +87,17 @@ body {
 }
 
 .toggle_switch_title {
+    position: relative;
+
     width:20%;
-    float:right;
+    float:left;
 }
 
 #toggle_switch {
     position: absolute;
     width: 60px;
     float: right;
-    right: 80px;
+    right: 10px;
 }
 
 .range_blocks_input {
@@ -139,14 +141,12 @@ body {
 }
 
 .inputs_number_range_ID_min {
-    display: inline-block;
-    position:absolute;
+    display: inline-flex;
+    float:left;
 }
 .inputs_number_range_ID_max {
-    display: inline;
-    position:relative;
-    float: right;
-    right: 20px;
+    display: inline-flex;
+    float:right;
 }
 
 #rangeIDmin{
