@@ -58,7 +58,7 @@ def Blockchain_Graph(rangeID, debugMode = True):
 			y_zoom_range[1] = float(G.nodes[block[1]]['pos'][1])+40
 		elif block[0] == (data[0][-1][0]-5): #o numero 10 indica que o zoom sera dado nos ultimos 10 blocos
 			x_zoom_range[0] = float(G.nodes[block[1]]['pos'][0])+200
-			y_zoom_range[0] = float(G.nodes[block[1]]['pos'][1])
+			y_zoom_range[0] = float(G.nodes[block[1]]['pos'][1])+20
 
 	if debugMode == False: y_zoom_range = None
 
@@ -331,7 +331,7 @@ def Blockchain_Graph(rangeID, debugMode = True):
 	return Graph
 
 #configuração das ferramentas de analise do gráfico
-tools =  {'displayModeBar':True,'scrollZoom':True, 'displaylogo':False, 'modeBarButtonsToRemove':['lasso2d', 'autoScale2d', 'select2d','toggleSpikelines', 'hoverCompareCartesian', 'hoverClosestCartesian'], 'modeBarButtonsToAdd':['drawopenpath', 'eraseshape']}
+tools =  {'displayModeBar':True,'scrollZoom':True, 'displaylogo':False, 'modeBarButtonsToRemove':['resetScale2d', 'lasso2d', 'autoScale2d', 'select2d','toggleSpikelines', 'hoverCompareCartesian', 'hoverClosestCartesian'], 'modeBarButtonsToAdd':['drawopenpath', 'eraseshape']}
 #todas as configs: https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js#L6
 
 """
