@@ -1,0 +1,165 @@
+body {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    background: rgb(255,255,255);
+}
+
+.app_header {
+    text-align: center;
+    font-weight:bold;
+    color:aliceblue;
+    background-color: #343a40;
+    position:absolute;
+    top:0px;
+    left: 0%;
+    right: 0%;
+}
+
+.app_header Img{
+    position: relative;
+    float: right;
+    top:10px;
+    right: 30px;
+    height: 30px;
+}
+
+.navbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+    
+}
+
+.navbar-brand {
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    color:white;
+}
+
+.header_bar{
+    color: #FFFFFF;
+    text-shadow: 1px 2px 0 #000000;
+}
+
+.header_bar:hover{
+    background-color: rgba(23, 32, 32, 0.788);
+    color:  rgba(205, 255, 244, 0.788);
+}
+
+
+.app_Graph {
+    width:80%;
+    float:left;
+    text-align:center"
+}
+
+.button_pause_updates {
+	background:linear-gradient(to bottom, #003d2d 5%, #496154 100%);
+	background-color:#003d2d;
+	border-radius:15px;
+	border:2px solid #2f6b58;
+	cursor:pointer;
+	color:#ffffff;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size:15px;
+	padding:7px 7px;
+	text-decoration:none;
+    text-shadow: 2px 2px 0 #000000;
+    font-weight:bold;
+    width:19%;
+    float:right;
+}
+
+.button_pause_updates:hover {
+	background:linear-gradient(to bottom, #496154 5%, #003d2d 100%);
+	background-color:#496154;
+    color:rgba(255, 255, 255, 0.384)
+}
+
+.toggle_switch_title {
+    position: relative;
+
+    width:20%;
+    float:left;
+}
+
+#toggle_switch {
+    position: absolute;
+    width: 60px;
+    float: right;
+    right: 10px;
+}
+
+.range_blocks_input {
+    position: absolute;
+    width: 60px;
+    float: right;
+    right: 20px;
+}
+
+.range_blocks_title {
+    width:19%;
+    float:right;
+}
+
+
+.statistics_title {
+    width:19%;
+    float:right;
+}
+
+.table_explorer {
+    font-size: 10px;
+    width: 20%;
+    float:right;
+}
+
+.rodape {
+    position:fixed;
+    bottom: 0;
+    left: 30%;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 13px;
+    letter-spacing: -0.2px;
+    word-spacing: -1px;
+    color: #232D2E;
+    font-weight: 400;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+}
+
+.inputs_number_range_ID_min {
+    display: inline-flex;
+    float:left;
+}
+.inputs_number_range_ID_max {
+    display: inline-flex;
+    float:right;
+}
+
+#rangeIDmin{
+    width: 60px;
+    float: right;
+    right: 20px;
+}
+
+#rangeIDmax{
+    width: 60px;
+    float: right;
+    right: 20px;
+}
+
+
+
